@@ -1,0 +1,11 @@
+[user]
+    name = Rafael Fernandes Sant'Anna
+    email = rafaelsantanna@outlook.com
+    username = rfsantanna
+[core]
+    editor = vim
+    autocrlf = input
+    eol = lf
+#    pager = less -FRSX
+[alias]
+    lg = log --graph --pretty=format:'%C(yellow)%h%C(auto)%d%Creset %s %C(white)- %an, %ar%Creset'
