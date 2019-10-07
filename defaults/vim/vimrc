@@ -58,10 +58,8 @@ set shiftwidth=4
 set autoindent
 
 autocmd FileType html setlocal shiftwidth=2 tabstop=2 softtabstop=2
-autocmd FileType htmldjango setlocal shiftwidth=4 tabstop=4 softtabstop=4
-autocmd FileType javascript setlocal shiftwidth=4 tabstop=4 softtabstop=4
 autocmd FileType yaml setlocal shiftwidth=2 tabstop=2 softtabstop=2
-
+autocmd FileType sh setlocal shiftwidth=2 tabstop=2 softtabstop=2
 
 
 " ============================================================================
@@ -107,7 +105,7 @@ endif
 " ==============
 
 " Ansible-Vim
-au BufRead,BufNewFile *.yml set filetype=yaml.ansible
+au BufRead,BufNewFile *.yml set filetype=yaml.ansible cc=100
 "let g:ansible_name_highlight = 'b'
 let g:ansible_extra_keywords_highlight = 1
 let g:ansible_normal_keywords_highlight = 'Constant'
