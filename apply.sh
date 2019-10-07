@@ -15,8 +15,8 @@ elif [ $CONF_TYPE == 'git' ]; then
 
 elif [ $CONF_TYPE == 'vim' ]; then
   mkdir ~/.vim 2> /dev/null
-  cp -vi defaults/vimrc ~/.vimrc
-  cp -vR defaults/colors ~/.vim/
+  cp -vi defaults/vim/vimrc ~/.vimrc
+  cp -vR defaults/vim/colors ~/.vim/
   vim +'PlugClean --sync' +qa  
   vim +'PlugInstall --sync' +qa  
 
@@ -36,4 +36,4 @@ else
   echo "Argument error:"
   echo "Options: bash, git, vim, termux, msys"
 
-
+fi
