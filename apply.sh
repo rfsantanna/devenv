@@ -43,7 +43,8 @@ elif [ "$CONF_TYPE" == 'dev' ]; then
   bash $0 vim
 
 else
-  f_title "Argument error:"
-  echo "Options: bash, git, vim, termux, msys"
+  f_title "Argument error! "
+  echo '### Valid args: bash|git|vim|termux|msys|dev(bash+git+vim)'
+  echo "Ex.: $0 dev"
 
 fi
