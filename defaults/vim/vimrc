@@ -36,7 +36,7 @@ imap jj <ESC> " ESC on insert mode
 " Folding code By Indentation
 set foldmethod=indent
 set foldlevel=99
-nnoremap <space> za  " Map space key to fold/unfold
+"nnoremap <space> za  " Map space key to fold/unfold
 
 
 " Allow plugins by file type (required for plugins!)
