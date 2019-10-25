@@ -1,0 +1,72 @@
+# Aliases
+#
+# Misc :)
+alias less='less -r'                          # raw control characters
+alias whence='type -a'                        # where, of a sort
+alias grep='grep --color'                     # show differences in colour
+alias egrep='egrep --color=auto'              # show differences in colour
+alias fgrep='fgrep --color=auto'              # show differences in colour
+
+alias ls="ls --color"
+alias l="ls --color"
+alias ll="ls --color -l"
+alias la="ls --color -lA"
+
+alias grep='grep --color'                     # show differences in colour
+alias egrep='egrep --color=auto'              # show differences in colour
+alias fgrep='fgrep --color=auto'              # show differences in colour
+
+# ----------------------
+# Git Aliases
+# ----------------------
+alias Ga='git add'
+alias Gaa='git add .'
+alias Gaaa='git add --all'
+alias Gau='git add --update'
+alias Gb='git branch'
+alias Gbd='git branch --delete '
+alias Gc='git commit'
+alias Gcm='git commit --message'
+alias Gcf='git commit --fixup'
+alias Gco='git checkout'
+alias Gcob='git checkout -b'
+alias Gcom='git checkout master'
+alias Gcos='git checkout staging'
+alias Gcod='git checkout develop'
+alias Gd='git diff'
+alias Gda='git diff HEAD'
+alias Gi='git init'
+alias Glg='git log --graph --oneline --decorate --all'
+alias Gld='git log --pretty=format:"%h %ad %s" --date=short --all'
+alias Gm='git merge --no-ff'
+alias Gma='git merge --abort'
+alias Gmc='git merge --continue'
+alias Gp='git pull'
+alias Gpr='git pull --rebase'
+alias Gr='git rebase'
+alias Gs='git status'
+alias Gss='git status --short'
+alias Gst='git stash'
+alias Gsta='git stash apply'
+alias Gstd='git stash drop'
+alias Gstl='git stash list'
+alias Gstp='git stash pop'
+alias Gsts='git stash save'
+
+# ----------------------
+# Git Functions
+# ----------------------
+# Git log find by commit message
+function Glf() { git log --all --grep="$1"; }
+
+
+### Windows aliases (MSYS2, GitBash)
+# alias winhome="cd /c/users/$USERNAME"
+# alias python='winpty python.exe'
+# 
+#if [ `pwd` == '/' ]
+#  then
+#  cd $HOME
+#fi
+###
+
