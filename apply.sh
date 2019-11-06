@@ -28,6 +28,13 @@ elif [ "$CONF_TYPE" == 'vim' ]; then
   vim +'PlugClean --sync' +qa &> /dev/null
   vim +'PlugInstall --sync' +qa  &> /dev/null
 
+elif [ "$CONF_TYPE" == 'fix-ansible-vim' ]; then
+  f_title "VIM :: Fix ansible-vim loop highlight and Indentation"
+  sed -i 's/^setlocal indentkeys.*/setlocal indentkeys=!^F,o,O,0#,0},0] ",<:>,-,*<Return>/g' \
+    ~/.vim/plugged/ansible-vim/indent/ansible.vim
+  sed -i 's/with_.+\"/with_.+\|loop.+\"/g' \
+    ~/.vim/plugged/ansible-vim/syntax/ansible.vim
+
 elif [ "$CONF_TYPE" == 'termux' ]; then
   f_title "TERMUX :: Copying config files"
   mkdir ~/.termux 2> /dev/null
@@ -41,6 +48,7 @@ elif [ "$CONF_TYPE" == 'dev' ]; then
   bash $0 bash
   bash $0 git
   bash $0 vim
+  bash $0 fix-ansible-vim
 
 else
   f_title "Argument error! "
