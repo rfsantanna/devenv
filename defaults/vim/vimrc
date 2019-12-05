@@ -107,6 +107,19 @@ endif
 " ============================================================================
 
 
+" FUNCTIONS
+" ---------
+
+" REMOVE TRAILING WHITESPACES BEFORE SAVING
+fun! <SID>StripTrailingWhitespaces()
+    let l = line(".")
+    let c = col(".")
+    %s/\s\+$//e
+    call cursor(l, c)
+endfun
+
+autocmd FileType yaml.ansible,python,conf,ansible_hosts autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
+
 
 " PLUGIN CONFIGS
 " ==============
