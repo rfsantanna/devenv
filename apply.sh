@@ -30,11 +30,14 @@ elif [ "$CONF_TYPE" == 'vim' ]; then
   vim +'PlugInstall --sync' +qa  &> /dev/null
 
 elif [ "$CONF_TYPE" == 'nvim' ]; then
+  f_title "NVIM :: Installing vim-plug"
+  curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
+      https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   f_title "NVIM :: Copying config files"
   mkdir -p ~/.config/nvim/ 2> /dev/null
   cp -vi defaults/nvim/init.vim ~/.config/nvim/
   cp -vR defaults/vim/colors ~/.config/nvim/
-  f_title "VIM :: Installing Plugins"
+  f_title "NVIM :: Installing Plugins"
   nvim +'PlugClean --sync' +qa &> /dev/null
   nvim +'PlugInstall --sync' +qa  &> /dev/null
 
