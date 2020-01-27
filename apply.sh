@@ -42,11 +42,16 @@ elif [ "$CONF_TYPE" == 'nvim' ]; then
   nvim +'PlugInstall --sync' +qa  &> /dev/null
 
 elif [ "$CONF_TYPE" == 'fix-ansible-vim' ]; then
+  if [ $2 == 'nvim' ]; then
+    PLUG_DIR=~/.local/share/nvim/plugged/ansible-vim
+  else
+    PLUG_DIR=~/.vim/plugged/ansible-vim
+  fi
   f_title "VIM :: Fix ansible-vim loop highlight and Indentation"
   sed -i 's/^setlocal indentkeys.*/setlocal indentkeys=!^F,o,O,0#,0},0] ",<:>,-,*<Return>/g' \
-    ~/.vim/plugged/ansible-vim/indent/ansible.vim
+    ${PLUG_DIR}/indent/ansible.vim && echo ${PLUG_DIR}/indent -- OK
   sed -i 's/with_.+\"/with_.+\|loop.+\"/g' \
-    ~/.vim/plugged/ansible-vim/syntax/ansible.vim
+    ${PLUG_DIR}/syntax/ansible.vim && echo ${PLUG_DIR}/syntax -- OK 
 
 elif [ "$CONF_TYPE" == 'termux' ]; then
   f_title "TERMUX :: Copying config files"
@@ -65,7 +70,8 @@ elif [ "$CONF_TYPE" == 'dev' ]; then
 
 else
   f_title "Argument error! "
-  echo '### Valid args: bash|git|vim|termux|msys|dev(bash+git+vim)'
+  echo '### Valid args: bash|git|vim|nvim|termux|msys'
+  echo '                fix-ansible-vim|dev(bash+git+vim)'
   echo "Ex.: $0 dev"
 
 fi
