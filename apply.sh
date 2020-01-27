@@ -13,6 +13,7 @@ if [ "$CONF_TYPE" == 'bash' ]; then
   f_title "BASH :: Copying config files"
   cp -vi defaults/bashrc ~/.bashrc
   cp -vi defaults/bash_prompt ~/.bash_prompt
+  cp -vi defaults/bash_alias ~/.bash_alias
   source ~/.bashrc
 
 elif [ "$CONF_TYPE" == 'git' ]; then
@@ -27,6 +28,15 @@ elif [ "$CONF_TYPE" == 'vim' ]; then
   f_title "VIM :: Installing Plugins"
   vim +'PlugClean --sync' +qa &> /dev/null
   vim +'PlugInstall --sync' +qa  &> /dev/null
+
+elif [ "$CONF_TYPE" == 'nvim' ]; then
+  f_title "NVIM :: Copying config files"
+  mkdir -p ~/.config/nvim/ 2> /dev/null
+  cp -vi defaults/nvim/init.vim ~/.config/nvim/
+  cp -vR defaults/vim/colors ~/.config/nvim/
+  f_title "VIM :: Installing Plugins"
+  nvim +'PlugClean --sync' +qa &> /dev/null
+  nvim +'PlugInstall --sync' +qa  &> /dev/null
 
 elif [ "$CONF_TYPE" == 'fix-ansible-vim' ]; then
   f_title "VIM :: Fix ansible-vim loop highlight and Indentation"
