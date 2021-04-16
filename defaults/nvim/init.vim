@@ -1,4 +1,3 @@
-" Vim SETTINGS
 set fileformat=unix
 set clipboard^=unnamed,unnamedplus  " Get Machine Clipboard
 
@@ -23,18 +22,17 @@ set tags=tags;
 set colorcolumn=80
 set spelllang=pt_br,en
 set noswapfile
-set termguicolors     " enable true colors support
-set bg=dark
+" set termguicolors     " enable true colors support
 
 
-
-" MAPS
-imap jj <ESC> " ESC on insert mode
+" Map jj to ESC
+imap jj <ESC> 
+tnoremap jj <C-\><C-n>
 
 
 " Folding code By Indentation
-"set foldmethod=indent
-"set foldlevel=99
+set foldmethod=indent
+set foldlevel=1
 "nnoremap <space> za  " Map space key to fold/unfold
 
 
@@ -83,11 +81,12 @@ endif
 
 " ============================================================================
 " Active Plugins
-call plug#begin('~/.local/share/nvim/plugged')
+call plug#begin('~/AppData/Local/nvim/plugged')
 
-Plug 'davidhalter/jedi-vim'
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'zchee/deoplete-jedi'
+Plug 'SidOfc/mkdx'
+Plug 'preservim/nerdtree'
+Plug 'sheerun/vim-polyglot'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'pearofducks/ansible-vim', { 'do': 'cd ./UltiSnips; ./generate.py' }
 Plug 'itchyny/lightline.vim'
 Plug 'tpope/vim-fugitive'
@@ -113,7 +112,7 @@ let g:jedi#completions_enabled = 0
 
 " Whether to show function call signature
 let g:jedi#show_call_signatures = '0'
-let g:deoplete#enable_at_startup = 1
+" let g:deoplete#enable_at_startup = 1
 
 
 " LIGHTLINE
@@ -160,3 +159,48 @@ let g:ansible_extra_keywords_highlight = 1
 "let g:ansible_with_keywords_highlight = 'Comment'
 let g:ansible_unindent_after_newline = 1
 let g:ansible_attribute_highlight = "o"
+
+
+let g:python3_host_prog = 'C:\Program Files (x86)\Microsoft Visual Studio\Shared\Python36_64\python.exe'
+
+" Use tab for trigger completion with characters ahead and navigate.
+" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use <c-space> to trigger completion.
+inoremap <silent><expr> <c-space> coc#refresh()
+
+" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
+" Coc only does snippet and additional edit on confirm.
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+" Use `[c` and `]c` to navigate diagnostics
+nmap <silent> [c <Plug>(coc-diagnostic-prev)
+nmap <silent> ]c <Plug>(coc-diagnostic-next)
+
+" Remap keys for gotos
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+
+"autocmd VimEnter * NERDTree
+
+"cd $USERPROFILE
+"
+
+function! BASH()
+  silent !clear
+  execute "terminal " . "C:/PROGRA~1/Git/bin/bash.exe --login -i"
+endfunction
+
