@@ -1,3 +1,5 @@
+cd $USERPROFILE
+
 set fileformat=unix
 set clipboard^=unnamed,unnamedplus  " Get Machine Clipboard
 
@@ -63,14 +65,13 @@ endif
 
 " ============================================================================
 " Vim-plug initialization
-
 let vim_plug_just_installed = 0
-let vim_plug_path = expand('~/.vim/autoload/plug.vim')
+let vim_plug_path = expand('~/.config/nvim/autoload/plug.vim')
 if !filereadable(vim_plug_path)
     echo "Installing Vim-plug..."
     echo ""
-    silent !mkdir -p ~/.vim/autoload
-    silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    silent !mkdir -p ~/.config/nvim/autoload
+    silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     let vim_plug_just_installed = 1
 endif
 
@@ -81,7 +82,7 @@ endif
 
 " ============================================================================
 " Active Plugins
-call plug#begin('~/AppData/Local/nvim/plugged')
+call plug#begin('~/.nvim/plugged')
 
 Plug 'SidOfc/mkdx'
 Plug 'preservim/nerdtree'
@@ -161,7 +162,7 @@ let g:ansible_unindent_after_newline = 1
 let g:ansible_attribute_highlight = "o"
 
 
-let g:python3_host_prog = 'C:\Program Files (x86)\Microsoft Visual Studio\Shared\Python36_64\python.exe'
+let g:python3_host_prog = 'python'
 
 " Use tab for trigger completion with characters ahead and navigate.
 " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
@@ -195,12 +196,31 @@ nmap <silent> gr <Plug>(coc-references)
 
 
 "autocmd VimEnter * NERDTree
-
-"cd $USERPROFILE
 "
 
-function! BASH()
+function! gbash()
   silent !clear
   execute "terminal " . "C:/PROGRA~1/Git/bin/bash.exe --login -i"
 endfunction
 
+" Use <C-j> for jump to next placeholder, it's default of coc.nvim
+let g:coc_snippet_next = '<c-j>'
+
+" Use <C-k> for jump to previous placeholder, it's default of coc.nvim
+let g:coc_snippet_prev = '<c-k>'
+
+
+let g:coc_global_extensions = [
+      \ 'coc-pyright',
+      \ 'coc-snippets',
+      \ 'coc-marketplace',
+      \ 'coc-prettier',
+      \ 'coc-explorer',
+      \ 'coc-highlight',
+      \ 'coc-omni',
+      \ 'coc-omnisharp',
+      \ 'coc-json',
+      \ 'coc-fzf-preview'
+      \ ]
+autocmd BufEnter * if (winnr("$") == 1 && &filetype == 'coc-explorer') | q | endif
+au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
