@@ -66,7 +66,6 @@ elif [ "$CONF_TYPE" == 'dev' ]; then
   bash $0 bash
   bash $0 git
   bash $0 vim
-  bash $0 fix-ansible-vim
 
 else
   f_title "Argument error! "
