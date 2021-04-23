@@ -1,8 +1,8 @@
-cd $USERPROFILE
-
 set fileformat=unix
 set clipboard^=unnamed,unnamedplus  " Get Machine Clipboard
 
+set guioptions=c
+set guifont=Lucida_Console:h10:cDEFAULT
 set nocompatible  " no vi-compatible
 set ls=2          " always show status bar
 set bs=2          " fix backspace issues
@@ -24,7 +24,16 @@ set tags=tags;
 set colorcolumn=80
 set spelllang=pt_br,en
 set noswapfile
-" set termguicolors     " enable true colors support
+if has('termguicolors')
+  set termguicolors
+endif
+
+
+" Set python location for neovim
+let g:python3_host_prog = 'python'
+
+" Disable polyglot by filetype
+let g:polyglot_disabled = ['markdown']
 
 
 " Map jj to ESC
@@ -34,7 +43,8 @@ tnoremap jj <C-\><C-n>
 
 " Folding code By Indentation
 set foldmethod=indent
-set foldlevel=1
+set foldlevel=99
+set nofoldenable
 "nnoremap <space> za  " Map space key to fold/unfold
 
 
@@ -52,26 +62,17 @@ set softtabstop=4
 set shiftwidth=4
 "set autoindent
 
-autocmd FileType html setlocal shiftwidth=2 tabstop=2 softtabstop=2
-autocmd FileType yaml.ansible setlocal shiftwidth=2 tabstop=2 softtabstop=2
-autocmd FileType sh setlocal shiftwidth=2 tabstop=2 softtabstop=2
-
-" Uncomment the following to have Vim jump to the last position when
-" reopening a file
-if has("autocmd")
-  au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-endif
 
 
 " ============================================================================
 " Vim-plug initialization
 let vim_plug_just_installed = 0
-let vim_plug_path = expand('~/.config/nvim/autoload/plug.vim')
+let vim_plug_path = expand('~/.vim/autoload/plug.vim')
 if !filereadable(vim_plug_path)
     echo "Installing Vim-plug..."
     echo ""
-    silent !mkdir -p ~/.config/nvim/autoload
-    silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    silent !mkdir -p ~/.vim/autoload
+    silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     let vim_plug_just_installed = 1
 endif
 
@@ -82,18 +83,18 @@ endif
 
 " ============================================================================
 " Active Plugins
-call plug#begin('~/.nvim/plugged')
+call plug#begin('~/.vim/plugged')
 
+Plug 'sainnhe/sonokai'
+Plug 'sainnhe/gruvbox-material'
+Plug 'morhetz/gruvbox'
+Plug 'drewtempelmeyer/palenight.vim'
 Plug 'SidOfc/mkdx'
 Plug 'preservim/nerdtree'
 Plug 'sheerun/vim-polyglot'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'pearofducks/ansible-vim', { 'do': 'cd ./UltiSnips; ./generate.py' }
 Plug 'itchyny/lightline.vim'
 Plug 'tpope/vim-fugitive'
-Plug 'sainnhe/gruvbox-material'
-Plug 'ayu-theme/ayu-vim'
-Plug 'drewtempelmeyer/palenight.vim'
 
 call plug#end()
 
@@ -105,16 +106,33 @@ endif
 " ============================================================================
 
 
-" PLUGIN CONFIGS
-" ==============
+" FUNCTIONS
+" ---------
 
-" Disable autocompletion, because I use deoplete for auto-completion
-let g:jedi#completions_enabled = 0
+" REMOVE TRAILING WHITESPACES BEFORE SAVING
+fun! <SID>StripTrailingWhitespaces()
+    let l = line(".")
+    let c = col(".")
+    %s/\s\+$//e
+    call cursor(l, c)
+endfun
 
-" Whether to show function call signature
-let g:jedi#show_call_signatures = '0'
-" let g:deoplete#enable_at_startup = 1
 
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+function! GBASH()
+  silent !clear
+  execute "terminal " . "C:/PROGRA~1/Git/bin/bash.exe --login -i"
+endfunction
+
+
+
+
+" THEMES
+" ---------
 
 " LIGHTLINE
 set laststatus=2
@@ -130,26 +148,51 @@ let g:lightline = {
   \   }
   \ }
 
-
-" THEMES
-" ---------
-
-" AYU
-"let ayucolor="light"  " for light version of theme
-"let ayucolor="mirage" " for mirage version of theme
-"let ayucolor="dark"   " for dark version of theme
-"colorscheme ayu
-
 " GRUVBOX_MATERIAL
 "set background=dark
+"let g:gruvbox_material_background = 'hard'
+"let g:gruvbox_material_palette = 'original'
 "colorscheme gruvbox-material
 "let g:lightline.colorscheme = 'gruvbox_material'
 
+" GRUVBOX_MATERIAL
+"set background=dark
+"let g:lightline.colorscheme = 'gruvbox_material'
+"let g:gruvbox_contrast_dark = 'hard'
+"let g:gruvbox_contrast_light = 'hard'
+"let g:gruvbox_bold = 0
+"colorscheme gruvbox
+
 " PALENIGHT
+"set background=dark
+"colorscheme palenight   
+"let g:lightline.colorscheme = 'palenight'
+"let g:palenight_terminal_italics=1
+
+"SONOKAI
 set background=dark
-colorscheme palenight
-let g:lightline.colorscheme = 'palenight'
-let g:palenight_terminal_italics=1
+let g:sonokai_style = 'shusia'
+let g:sonokai_cursor = 'purple'
+let g:sonokai_enable_italic = 0
+let g:sonokai_enable_bold = 0
+let g:sonokai_disable_italic_comment = 1
+colorscheme sonokai
+let g:lightline.colorscheme = 'sonokai'
+let g:sonokai_lightline_disable_bold = 1
+let g:sonokai_better_performance = 1
+
+
+
+
+" PLUGIN CONFIGS
+" ==============
+
+"DEOPLETE
+" Disable autocompletion, if deoplete is used
+"let g:jedi#completions_enabled = 0
+" Whether to show function call signature
+"let g:jedi#show_call_signatures = '0'
+" let g:deoplete#enable_at_startup = 1
 
 
 " Ansible-Vim
@@ -162,8 +205,8 @@ let g:ansible_unindent_after_newline = 1
 let g:ansible_attribute_highlight = "o"
 
 
-let g:python3_host_prog = 'python'
-
+" COC
+"
 " Use tab for trigger completion with characters ahead and navigate.
 " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
 inoremap <silent><expr> <TAB>
@@ -171,11 +214,6 @@ inoremap <silent><expr> <TAB>
       \ <SID>check_back_space() ? "\<TAB>" :
       \ coc#refresh()
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
 
 " Use <c-space> to trigger completion.
 inoremap <silent><expr> <c-space> coc#refresh()
@@ -194,15 +232,6 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
-
-"autocmd VimEnter * NERDTree
-"
-
-function! gbash()
-  silent !clear
-  execute "terminal " . "C:/PROGRA~1/Git/bin/bash.exe --login -i"
-endfunction
-
 " Use <C-j> for jump to next placeholder, it's default of coc.nvim
 let g:coc_snippet_next = '<c-j>'
 
@@ -213,14 +242,26 @@ let g:coc_snippet_prev = '<c-k>'
 let g:coc_global_extensions = [
       \ 'coc-pyright',
       \ 'coc-snippets',
-      \ 'coc-marketplace',
-      \ 'coc-prettier',
-      \ 'coc-explorer',
-      \ 'coc-highlight',
-      \ 'coc-omni',
-      \ 'coc-omnisharp',
-      \ 'coc-json',
-      \ 'coc-fzf-preview'
+      \ 'coc-json'
       \ ]
-autocmd BufEnter * if (winnr("$") == 1 && &filetype == 'coc-explorer') | q | endif
-au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+
+map <C-n> :NERDTreeToggle<CR>
+map <C-g><C-b> :call GBASH()<CR>
+map <C-p><C-s> :term C:/PROGRA~1/Powershell/7/pwsh.exe<CR>
+
+
+
+" AUTOSTART
+"
+" Set Tab width
+autocmd FileType html setlocal shiftwidth=2 tabstop=2 softtabstop=2
+autocmd FileType yaml.ansible setlocal shiftwidth=2 tabstop=2 softtabstop=2
+autocmd FileType sh setlocal shiftwidth=2 tabstop=2 softtabstop=2
+
+" Strip whitespaces before EOL
+autocmd FileType yaml.ansible,python,conf,ansible_hosts autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
+
+" Vim jump to the last position when reopening a file
+if has("autocmd")
+  au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+endif
