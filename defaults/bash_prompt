@@ -106,11 +106,11 @@ function set_bash_prompt () {
   set_virtualenv
 
   # Set the BRANCH variable.
-  if is_git_repository ; then
-    set_git_branch
-  else
+#  if is_git_repository ; then
+#    set_git_branch
+#  else
     BRANCH=''
-  fi
+#  fi
 
   echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD}\007"
 
