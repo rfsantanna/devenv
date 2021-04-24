@@ -90,6 +90,7 @@ Plug 'sainnhe/gruvbox-material'
 Plug 'morhetz/gruvbox'
 Plug 'drewtempelmeyer/palenight.vim'
 Plug 'SidOfc/mkdx'
+Plug 'dhruvasagar/vim-table-mode' 
 Plug 'preservim/nerdtree'
 Plug 'sheerun/vim-polyglot'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
