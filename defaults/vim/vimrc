@@ -271,7 +271,7 @@ endif
 if !has('nvim')
   augroup MKDX
     au!
-    au FileType markdown so $HOME/.vim/pack/plugins/start/mkdx/ftplugin/markdown.vim
+    au FileType markdown so $HOME/.vim/plugged/mkdx/ftplugin/markdown.vim
   augroup END
 endif
 
