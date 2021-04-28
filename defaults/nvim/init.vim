@@ -1,3 +1,4 @@
+
 set fileformat=unix
 set clipboard^=unnamed,unnamedplus  " Get Machine Clipboard
 
@@ -30,7 +31,7 @@ endif
 
 
 " Set python location for neovim
-let g:python3_host_prog = 'python'
+let g:python3_host_prog = expand('/usr/bin/python3')
 
 " Disable polyglot by filetype
 let g:polyglot_disabled = ['markdown']
@@ -90,6 +91,7 @@ Plug 'sainnhe/gruvbox-material'
 Plug 'morhetz/gruvbox'
 Plug 'drewtempelmeyer/palenight.vim'
 Plug 'SidOfc/mkdx'
+Plug 'dhruvasagar/vim-table-mode' 
 Plug 'preservim/nerdtree'
 Plug 'sheerun/vim-polyglot'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -265,3 +267,14 @@ autocmd FileType yaml.ansible,python,conf,ansible_hosts autocmd BufWritePre <buf
 if has("autocmd")
   au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 endif
+
+" MKDX fix for vim
+if !has('nvim')
+  augroup MKDX
+    au!
+    au FileType markdown so $HOME/.vim/plugged/mkdx/ftplugin/markdown.vim
+  augroup END
+endif
+
+" Remap Leader key
+let mapleader = ","
