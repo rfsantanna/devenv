@@ -1,3 +1,29 @@
+" Set python location for neovim
+let g:python3_host_prog = expand('C:\Program Files (x86)\Microsoft Visual Studio\Shared\Python36_64\python.exe') " ============================================================================ Preset options for plugins
+let g:polyglot_disabled = ['markdown'] " Disable polyglot for markdown files
+
+" Active Plugins
+call plug#begin('~/.vim/plugged')
+
+Plug 'sainnhe/sonokai'
+Plug 'sainnhe/gruvbox-material'
+Plug 'morhetz/gruvbox'
+Plug 'drewtempelmeyer/palenight.vim'
+Plug 'SidOfc/mkdx'
+Plug 'dhruvasagar/vim-table-mode' 
+Plug 'preservim/nerdtree'
+Plug 'sheerun/vim-polyglot'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'itchyny/lightline.vim'
+Plug 'tpope/vim-fugitive'
+Plug 'vimwiki/vimwiki'
+Plug 'jiangmiao/auto-pairs'
+
+call plug#end()
+
+" ============================================================================
+
+
 set fileformat=unix
 set clipboard^=unnamed,unnamedplus  " Get Machine Clipboard
 
@@ -28,13 +54,11 @@ if has('termguicolors')
   set termguicolors
 endif
 
-
-" Set python location for neovim
-let g:python3_host_prog = 'python'
-
-" Disable polyglot by filetype
-let g:polyglot_disabled = ['markdown']
-
+" Tabs and Spaces configuration
+set expandtab
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
 
 " Map jj to ESC
 imap jj <ESC> 
@@ -50,60 +74,12 @@ set nofoldenable
 
 " Allow plugins by file type (required for plugins!)
 filetype plugin on
-"filetype indent on
+filetype indent on
+set ai
+set smartindent
 
 " Syntax and Colors
 syntax enable
-
-" Tabs and Spaces configuration
-set expandtab
-set tabstop=4
-set softtabstop=4
-set shiftwidth=4
-"set autoindent
-
-
-
-" ============================================================================
-" Vim-plug initialization
-let vim_plug_just_installed = 0
-let vim_plug_path = expand('~/.vim/autoload/plug.vim')
-if !filereadable(vim_plug_path)
-    echo "Installing Vim-plug..."
-    echo ""
-    silent !mkdir -p ~/.vim/autoload
-    silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    let vim_plug_just_installed = 1
-endif
-
-" manually load vim-plug the first time
-if vim_plug_just_installed
-    :execute 'source '.fnameescape(vim_plug_path)
-endif
-
-" ============================================================================
-" Active Plugins
-call plug#begin('~/.vim/plugged')
-
-Plug 'sainnhe/sonokai'
-Plug 'sainnhe/gruvbox-material'
-Plug 'morhetz/gruvbox'
-Plug 'drewtempelmeyer/palenight.vim'
-Plug 'SidOfc/mkdx'
-Plug 'preservim/nerdtree'
-Plug 'sheerun/vim-polyglot'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'itchyny/lightline.vim'
-Plug 'tpope/vim-fugitive'
-
-call plug#end()
-
-if vim_plug_just_installed
-    echo "Installing Bundles, please ignore key map error messages"
-    :PlugInstall
-endif
-
-" ============================================================================
 
 
 " FUNCTIONS
@@ -171,16 +147,15 @@ let g:lightline = {
 
 "SONOKAI
 set background=dark
-let g:sonokai_style = 'shusia'
+colorscheme sonokai
+let g:sonokai_style = 'default'
 let g:sonokai_cursor = 'purple'
 let g:sonokai_enable_italic = 0
-let g:sonokai_enable_bold = 0
-let g:sonokai_disable_italic_comment = 1
-colorscheme sonokai
+let g:sonokai_enable_bold = 1
+let g:sonokai_disable_italic_comment = 0
 let g:lightline.colorscheme = 'sonokai'
-let g:sonokai_lightline_disable_bold = 1
+let g:sonokai_lightline_disable_bold = 0
 let g:sonokai_better_performance = 1
-
 
 
 
@@ -242,12 +217,12 @@ let g:coc_snippet_prev = '<c-k>'
 let g:coc_global_extensions = [
       \ 'coc-pyright',
       \ 'coc-snippets',
-      \ 'coc-json'
+      \ 'coc-json',
+      \ 'coc-powershell'
       \ ]
 
 map <C-n> :NERDTreeToggle<CR>
 map <C-g><C-b> :call GBASH()<CR>
-map <C-p><C-s> :term C:/PROGRA~1/Powershell/7/pwsh.exe<CR>
 
 
 
@@ -265,3 +240,16 @@ autocmd FileType yaml.ansible,python,conf,ansible_hosts autocmd BufWritePre <buf
 if has("autocmd")
   au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 endif
+
+" MKDX fix for vim
+"if !has('nvim')
+augroup MKDX
+  au!
+  au FileType markdown so $HOME/.vim/plugged/mkdx/ftplugin/markdown.vim
+augroup END
+"endif
+
+" Remap Leader key
+let mapleader = ","
+
+nnoremap <leader>t ?#<space><cr>jV}k :sort!<cr>:let @/=''<cr>
