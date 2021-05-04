@@ -1,45 +1,49 @@
 " Set python location for neovim
-let g:python3_host_prog = expand('C:\Program Files (x86)\Microsoft Visual Studio\Shared\Python36_64\python.exe') " ============================================================================ Preset options for plugins
+let g:python3_host_prog = expand('C:/Python39/python.exe') 
 let g:polyglot_disabled = ['markdown'] " Disable polyglot for markdown files
 
 " Active Plugins
 call plug#begin('~/.vim/plugged')
 
-Plug 'sainnhe/sonokai'
-Plug 'sainnhe/gruvbox-material'
-Plug 'morhetz/gruvbox'
-Plug 'drewtempelmeyer/palenight.vim'
+Plug 'preservim/nerdtree'
 Plug 'SidOfc/mkdx'
 Plug 'dhruvasagar/vim-table-mode' 
-Plug 'preservim/nerdtree'
 Plug 'sheerun/vim-polyglot'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'itchyny/lightline.vim'
 Plug 'tpope/vim-fugitive'
-Plug 'vimwiki/vimwiki'
 Plug 'jiangmiao/auto-pairs'
+Plug 'voldikss/vim-floaterm'
+Plug 'nightsense/carbonized'
+Plug 'keith/parsec.vim'
+Plug 'chriskempson/base16-vim'
+Plug 'jeffkreeftmeijer/vim-dim'
+Plug 'Chiel92/vim-autoformat'
+Plug 'AndrewRadev/splitjoin.vim'
 
 call plug#end()
 
 " ============================================================================
 
-
+"if has('termguicolors')
+"  set termguicolors
+"endif
+filetype plugin on
+filetype indent on
+syntax enable
 set fileformat=unix
-set clipboard^=unnamed,unnamedplus  " Get Machine Clipboard
-
-set guioptions=c
-set guifont=Lucida_Console:h10:cDEFAULT
-set nocompatible  " no vi-compatible
-set ls=2          " always show status bar
-set bs=2          " fix backspace issues
-set rnu           " relative number
-set number
+set clipboard^=unnamed,unnamedplus    " Get Machine Clipboard
+set guioptions=c                      " no gui options bar
+set nocompatible                      " no vi-compatible
+set ls=2                              " always show status bar
+set bs=2                              " fix backspace issues
+set number                            " show number
+set rnu                               " relative number
 set showcmd
 set cursorline
 set backspace=2
 set hlsearch
 set ignorecase
-set ttyfast
 set novisualbell
 set noerrorbells
 set showmatch
@@ -50,36 +54,21 @@ set tags=tags;
 set colorcolumn=80
 set spelllang=pt_br,en
 set noswapfile
-if has('termguicolors')
-  set termguicolors
-endif
+set noshowmode
 
 " Tabs and Spaces configuration
 set expandtab
 set tabstop=4
 set softtabstop=4
 set shiftwidth=4
-
-" Map jj to ESC
-imap jj <ESC> 
-tnoremap jj <C-\><C-n>
-
+set ai
+set smartindent
 
 " Folding code By Indentation
 set foldmethod=indent
 set foldlevel=99
 set nofoldenable
-"nnoremap <space> za  " Map space key to fold/unfold
 
-
-" Allow plugins by file type (required for plugins!)
-filetype plugin on
-filetype indent on
-set ai
-set smartindent
-
-" Syntax and Colors
-syntax enable
 
 
 " FUNCTIONS
@@ -93,19 +82,10 @@ fun! <SID>StripTrailingWhitespaces()
     call cursor(l, c)
 endfun
 
-
 function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
-
-function! GBASH()
-  silent !clear
-  execute "terminal " . "C:/PROGRA~1/Git/bin/bash.exe --login -i"
-endfunction
-
-
-
 
 " THEMES
 " ---------
@@ -113,7 +93,7 @@ endfunction
 " LIGHTLINE
 set laststatus=2
 let g:lightline = {
-  \   'colorscheme': 'jellybeans',
+  \   'colorscheme': 'powerline',
   \   'active': {
   \     'left':[ [ 'mode', 'paste' ],
   \              [ 'gitbranch', 'readonly', 'filename', 'modified' ]
@@ -124,51 +104,11 @@ let g:lightline = {
   \   }
   \ }
 
-" GRUVBOX_MATERIAL
-"set background=dark
-"let g:gruvbox_material_background = 'hard'
-"let g:gruvbox_material_palette = 'original'
-"colorscheme gruvbox-material
-"let g:lightline.colorscheme = 'gruvbox_material'
-
-" GRUVBOX_MATERIAL
-"set background=dark
-"let g:lightline.colorscheme = 'gruvbox_material'
-"let g:gruvbox_contrast_dark = 'hard'
-"let g:gruvbox_contrast_light = 'hard'
-"let g:gruvbox_bold = 0
-"colorscheme gruvbox
-
-" PALENIGHT
-"set background=dark
-"colorscheme palenight   
-"let g:lightline.colorscheme = 'palenight'
-"let g:palenight_terminal_italics=1
-
-"SONOKAI
-set background=dark
-colorscheme sonokai
-let g:sonokai_style = 'default'
-let g:sonokai_cursor = 'purple'
-let g:sonokai_enable_italic = 0
-let g:sonokai_enable_bold = 1
-let g:sonokai_disable_italic_comment = 0
-let g:lightline.colorscheme = 'sonokai'
-let g:sonokai_lightline_disable_bold = 0
-let g:sonokai_better_performance = 1
 
 
 
 " PLUGIN CONFIGS
 " ==============
-
-"DEOPLETE
-" Disable autocompletion, if deoplete is used
-"let g:jedi#completions_enabled = 0
-" Whether to show function call signature
-"let g:jedi#show_call_signatures = '0'
-" let g:deoplete#enable_at_startup = 1
-
 
 " Ansible-Vim
 au BufRead,BufNewFile *.yml set filetype=yaml.ansible cc=100
@@ -181,9 +121,14 @@ let g:ansible_attribute_highlight = "o"
 
 
 " COC
-"
+let g:coc_global_extensions = [
+      \ 'coc-pyright',
+      \ 'coc-snippets',
+      \ 'coc-json',
+      \ 'coc-powershell'
+      \ ]
+
 " Use tab for trigger completion with characters ahead and navigate.
-" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
 inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<TAB>" :
@@ -192,14 +137,8 @@ inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 " Use <c-space> to trigger completion.
 inoremap <silent><expr> <c-space> coc#refresh()
-
 " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
-" Coc only does snippet and additional edit on confirm.
 inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-
-" Use `[c` and `]c` to navigate diagnostics
-nmap <silent> [c <Plug>(coc-diagnostic-prev)
-nmap <silent> ]c <Plug>(coc-diagnostic-next)
 
 " Remap keys for gotos
 nmap <silent> gd <Plug>(coc-definition)
@@ -207,31 +146,54 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
-" Use <C-j> for jump to next placeholder, it's default of coc.nvim
-let g:coc_snippet_next = '<c-j>'
 
-" Use <C-k> for jump to previous placeholder, it's default of coc.nvim
-let g:coc_snippet_prev = '<c-k>'
+" MKDX fix for vim
+if !has('nvim')
+  augroup MKDX
+    au!
+    au FileType markdown so $HOME/.vim/plugged/mkdx/ftplugin/markdown.vim
+  augroup END
+endif
+let g:mkdx#settings = { 'highlight': { 'enable': 1 },
+                        \ 'enter': { 'shift': 1 },
+                        \ 'links': { 'external': { 'enable': 1 } },
+                        \ 'toc': { 'text': 'Table of Contents', 'update_on_write': 1 },
+                        \ 'fold': { 'enable': 1 } }
 
+" NerdTree
+map <silent> <C-n> :NERDTreeToggle<CR>
 
-let g:coc_global_extensions = [
-      \ 'coc-pyright',
-      \ 'coc-snippets',
-      \ 'coc-json',
-      \ 'coc-powershell'
-      \ ]
-
-map <C-n> :NERDTreeToggle<CR>
+" Useful mappings
+let mapleader = ","
+nnoremap <leader>H :cd ~/code<cr>
+imap jj <ESC> 
+tnoremap jj <C-\><C-n>
 map <C-g><C-b> :call GBASH()<CR>
 
+" terminal settings
+nnoremap <silent> <C-s><C-p> :FloatermNew --title=Powershell($1/$2) --name=powershell powershell<cr>
+nnoremap <silent> <C-s><C-b> :FloatermNew --title=bash($1/$2) --name=bash bash<cr>
+nnoremap <silent> <C-'> :FloatermToggle<cr>
+tnoremap <C-'> <C-\><C-n>:FloatermToggle<cr>
+nnoremap <silent> <C-s><C-s> <C-\><C-n>:FloatermNext<cr>
+tnoremap <silent> <C-s><C-s> <C-\><C-n>:FloatermNext<cr>
+hi FloatermBorder guifg=cyan
+let g:floaterm_position = 'bottomright'
+let g:floaterm_keymap_toggle = "<C-'>"
+if has('win32')
+    let g:floaterm_shell = 'powershell'
+else
+    let g:floaterm_shell = 'bash'
+endif
 
 
 " AUTOSTART
 "
-" Set Tab width
+" Set Tab width for specific files
 autocmd FileType html setlocal shiftwidth=2 tabstop=2 softtabstop=2
 autocmd FileType yaml.ansible setlocal shiftwidth=2 tabstop=2 softtabstop=2
 autocmd FileType sh setlocal shiftwidth=2 tabstop=2 softtabstop=2
+autocmd FileType markdown setlocal shiftwidth=2 tabstop=2 softtabstop=2
 
 " Strip whitespaces before EOL
 autocmd FileType yaml.ansible,python,conf,ansible_hosts autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
@@ -241,15 +203,5 @@ if has("autocmd")
   au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 endif
 
-" MKDX fix for vim
-"if !has('nvim')
-augroup MKDX
-  au!
-  au FileType markdown so $HOME/.vim/plugged/mkdx/ftplugin/markdown.vim
-augroup END
-"endif
-
-" Remap Leader key
-let mapleader = ","
-
-nnoremap <leader>t ?#<space><cr>jV}k :sort!<cr>:let @/=''<cr>
+colorscheme base16-tomorrow-night 
+"colorscheme base16-classic-dark
