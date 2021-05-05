@@ -177,11 +177,11 @@ map <C-g><C-b> :call GBASH()<CR>
 " terminal settings
 nnoremap <silent> <C-s><C-p> :FloatermNew --title=Powershell($1/$2) --name=powershell powershell<cr>
 nnoremap <silent> <C-s><C-b> :FloatermNew --title=bash($1/$2) --name=bash bash<cr>
-nnoremap <silent> <C-'> :FloatermToggle<cr>
-tnoremap <C-'> <C-\><C-n>:FloatermToggle<cr>
-nnoremap <silent> <C-s><C-s> <C-\><C-n>:FloatermNext<cr>
-tnoremap <silent> <C-s><C-s> <C-\><C-n>:FloatermNext<cr>
-hi FloatermBorder guifg=cyan
+nnoremap <silent> <C-s><C-s> :FloatermToggle<cr>
+tnoremap <C-s><C-s> <C-\><C-n>:FloatermToggle<cr>
+nnoremap <silent> <C-s><C-j> <C-\><C-n>:FloatermNext<cr>
+tnoremap <silent> <C-s><C-j> <C-\><C-n>:FloatermNext<cr>
+hi FloatermBorder guifg=magenta
 let g:floaterm_position = 'bottomright'
 let g:floaterm_keymap_toggle = "<C-'>"
 if has('win32')
@@ -207,5 +207,5 @@ if has("autocmd")
   au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 endif
 
-colorscheme base16-tomorrow-night 
-"colorscheme base16-classic-dark
+"colorscheme base16-tomorrow-night 
+colorscheme PaperColor
