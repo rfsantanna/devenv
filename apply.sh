@@ -21,6 +21,8 @@ elif [ "$CONF_TYPE" == 'git' ]; then
   cp -vi git/gitconfig ~/.gitconfig
 
 elif [ "$CONF_TYPE" == 'vim' ]; then
+  apt install python nodejs vim git neovim
+  pip install neovim
   f_title "VIM :: Copying config files"
   mkdir ~/.vim 2> /dev/null
   cp -vi vim/vim/vimrc ~/.vimrc
@@ -30,6 +32,8 @@ elif [ "$CONF_TYPE" == 'vim' ]; then
   vim +'PlugInstall --sync' +qa  &> /dev/null
 
 elif [ "$CONF_TYPE" == 'nvim' ]; then
+  apt install python nodejs vim git neovim
+  pip install neovim
   f_title "NVIM :: Installing vim-plug"
   curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs \
       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
@@ -40,11 +44,7 @@ elif [ "$CONF_TYPE" == 'nvim' ]; then
   nvim --headless +PlugInstall +qall
 
 elif [ "$CONF_TYPE" == 'fix-ansible-vim' ]; then
-  if [ $2 == 'nvim' ]; then
-    PLUG_DIR=~/.local/share/nvim/plugged/ansible-vim
-  else
-    PLUG_DIR=~/.vim/plugged/ansible-vim
-  fi
+  PLUG_DIR=~/.vim/plugged/ansible-vim
   f_title "VIM :: Fix ansible-vim loop highlight and Indentation"
   sed -i 's/^setlocal indentkeys.*/setlocal indentkeys=!^F,o,O,0#,0},0] ",<:>,-,*<Return>/g' \
     ${PLUG_DIR}/indent/ansible.vim && echo ${PLUG_DIR}/indent -- OK
