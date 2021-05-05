@@ -1,8 +1,12 @@
 " Set python location for neovim
-let g:python3_host_prog = expand('C:/Python39/python.exe') 
-let g:polyglot_disabled = ['markdown'] " Disable polyglot for markdown files
+if has('win32')
+    let g:python3_host_prog = expand('C:/Python39/python.exe') 
+else
+    let g:python3_host_prog = expand('/usr/bin/python3') 
+endif
 
 " Active Plugins
+let g:polyglot_disabled = ['markdown'] " Disable polyglot for markdown files
 call plug#begin('~/.vim/plugged')
 
 Plug 'preservim/nerdtree'
