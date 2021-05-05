@@ -35,7 +35,7 @@ elif [ "$CONF_TYPE" == 'nvim' ]; then
       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   f_title "NVIM :: Copying config files"
   cp -vi vim/init.vim ~/.config/nvim/
-  cp -vR vim/colors ~/.config/nvim/
+  cp -vR vim/defaults/* ~/.config/nvim/
   f_title "NVIM :: Installing Plugins"
   nvim --headless +PlugInstall +qall
 
