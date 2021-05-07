@@ -11,3 +11,4 @@
     lg = log --graph --pretty=format:'%C(yellow)%h%C(auto)%d%Creset %s %C(white)- %an, %ar%Creset'
 [credential]
     modalprompt = false
+    helper = store --file ~/.gitcreds
