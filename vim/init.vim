@@ -110,7 +110,7 @@ let g:lightline = {
   \   'colorscheme': 'powerline',
   \   'active': {
   \     'left':[ [ 'mode', 'paste' ],
-  \              [ 'gitbranch', 'readonly', 'filename', 'modified' ]
+  \              [ 'gitbranch', 'readonly', 'absolutepath', 'modified' ]
   \     ]
   \   },
   \   'component_function': {
@@ -174,6 +174,7 @@ let wiki_personal.path = '~/vimwiki/wiki_personal/'
 let wiki_personal.syntax = 'markdown'
 let wiki_personal.ext = '.md'
 
+let g:vimwiki_markdown_link_ext = 1
 let g:vimwiki_list = [wiki_work, wiki_personal]
 let g:vimwiki_ext2syntax = {'.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown'}
 
