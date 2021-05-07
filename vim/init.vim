@@ -1,16 +1,10 @@
-" Set python location for neovim
-if has('win32')
-    let g:python3_host_prog = expand('C:/Python39/python.exe') 
-else
-    let g:python3_host_prog = expand('/usr/bin/python3') 
-endif
+"
+" PLUGINS
+" ----------------------------------------------------------
 
-" Active Plugins
-let g:polyglot_disabled = ['markdown'] " Disable polyglot for markdown files
 call plug#begin('~/.vim/plugged')
 
 Plug 'preservim/nerdtree'
-Plug 'SidOfc/mkdx'
 Plug 'dhruvasagar/vim-table-mode' 
 Plug 'sheerun/vim-polyglot'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -19,19 +13,29 @@ Plug 'tpope/vim-fugitive'
 Plug 'jiangmiao/auto-pairs'
 Plug 'voldikss/vim-floaterm'
 Plug 'nightsense/carbonized'
-Plug 'keith/parsec.vim'
 Plug 'chriskempson/base16-vim'
-Plug 'jeffkreeftmeijer/vim-dim'
 Plug 'Chiel92/vim-autoformat'
-Plug 'AndrewRadev/splitjoin.vim'
+Plug 'vimwiki/vimwiki', {'branch': 'dev'}
 
 call plug#end()
 
-" ============================================================================
 
-"if has('termguicolors')
-"  set termguicolors
-"endif
+" SET CONFIGS
+" ----------------------------------------------------------
+
+"colorscheme base16-tomorrow-night 
+colorscheme PaperColor
+
+" Set python location for neovim
+if has('win32')
+    let g:python3_host_prog = expand('C:/Python39/python.exe') 
+else
+    let g:python3_host_prog = expand('/usr/bin/python3') 
+endif
+
+if has('termguicolors')
+  set termguicolors
+endif
 filetype plugin on
 filetype indent on
 syntax enable
@@ -65,36 +69,42 @@ set expandtab
 set tabstop=4
 set softtabstop=4
 set shiftwidth=4
-set ai
+set autoindent
 set smartindent
+" set tab width for specific files
+autocmd filetype sh setlocal shiftwidth=2 tabstop=2 softtabstop=2
 
 " Folding code By Indentation
 set foldmethod=indent
 set foldlevel=99
 set nofoldenable
 
+" Vim jump to the last position when reopening a file
+if has("autocmd")
+  au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+endif
 
+" Useful mappings
+let maplocalleader = ";"
+let mapleader = ","
+nnoremap <leader>H :cd ~/code<cr>
+imap jj <ESC> 
+tnoremap jj <C-\><C-n>
 
 " FUNCTIONS
-" ---------
+" ----------------------------------------------------------
 
-" REMOVE TRAILING WHITESPACES BEFORE SAVING
-fun! <SID>StripTrailingWhitespaces()
-    let l = line(".")
-    let c = col(".")
-    %s/\s\+$//e
-    call cursor(l, c)
-endfun
-
+" Check backspace for coc completion with tab
 function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-" THEMES
-" ---------
 
-" LIGHTLINE
+" PLUGIN CONFIGS
+" ----------------------------------------------------------
+
+"  ---- LIGHTLINE 
 set laststatus=2
 let g:lightline = {
   \   'colorscheme': 'powerline',
@@ -109,103 +119,69 @@ let g:lightline = {
   \ }
 
 
-
-
-" PLUGIN CONFIGS
-" ==============
-
-" Ansible-Vim
-au BufRead,BufNewFile *.yml set filetype=yaml.ansible cc=100
-let g:ansible_name_highlight = 'b'
-let g:ansible_extra_keywords_highlight = 1
-"let g:ansible_normal_keywords_highlight = 'Constant'
-"let g:ansible_with_keywords_highlight = 'Comment'
-let g:ansible_unindent_after_newline = 1
-let g:ansible_attribute_highlight = "o"
-
-
-" COC
+"  ---- COC
 let g:coc_global_extensions = [
       \ 'coc-pyright',
       \ 'coc-snippets',
       \ 'coc-json',
       \ 'coc-powershell'
       \ ]
-
 " Use tab for trigger completion with characters ahead and navigate.
 inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<TAB>" :
       \ coc#refresh()
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
 " Use <c-space> to trigger completion.
 inoremap <silent><expr> <c-space> coc#refresh()
 " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
 inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-
 " Remap keys for gotos
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
-
-" MKDX fix for vim
-if !has('nvim')
-  augroup MKDX
-    au!
-    au FileType markdown so $HOME/.vim/plugged/mkdx/ftplugin/markdown.vim
-  augroup END
-endif
-let g:mkdx#settings = { 'highlight': { 'enable': 1 },
-                        \ 'enter': { 'shift': 1 },
-                        \ 'links': { 'external': { 'enable': 1 } },
-                        \ 'toc': { 'text': 'Table of Contents', 'update_on_write': 1 },
-                        \ 'fold': { 'enable': 1 } }
-
-" NerdTree
+"  ---- NERDTREE
 map <silent> <C-n> :NERDTreeToggle<CR>
 
-" Useful mappings
-let mapleader = ","
-nnoremap <leader>H :cd ~/code<cr>
-imap jj <ESC> 
-tnoremap jj <C-\><C-n>
-map <C-g><C-b> :call GBASH()<CR>
 
-" terminal settings
+"  ---- TERMINAL (floaterm) 
+if has('win32')
+    let g:floaterm_shell = 'powershell'
+else
+    let g:floaterm_shell = 'bash'
+endif
+hi FloatermBorder guifg=orange
+let g:floaterm_borderchars = ['-', '│', '-', '│', '╭', '╮', '╯', '╰']
+let g:floaterm_position = 'bottomright'
 nnoremap <silent> <C-s><C-p> :FloatermNew --title=Powershell($1/$2) --name=powershell powershell<cr>
 nnoremap <silent> <C-s><C-b> :FloatermNew --title=bash($1/$2) --name=bash bash<cr>
 nnoremap <silent> <C-s><C-s> :FloatermToggle<cr>
 tnoremap <C-s><C-s> <C-\><C-n>:FloatermToggle<cr>
 nnoremap <silent> <C-s><C-j> <C-\><C-n>:FloatermNext<cr>
 tnoremap <silent> <C-s><C-j> <C-\><C-n>:FloatermNext<cr>
-hi FloatermBorder guifg=magenta
-let g:floaterm_position = 'bottomright'
-let g:floaterm_keymap_toggle = "<C-'>"
-if has('win32')
-    let g:floaterm_shell = 'powershell'
-else
-    let g:floaterm_shell = 'bash'
-endif
 
 
-" AUTOSTART
-"
-" Set Tab width for specific files
-autocmd FileType html setlocal shiftwidth=2 tabstop=2 softtabstop=2
-autocmd FileType yaml.ansible setlocal shiftwidth=2 tabstop=2 softtabstop=2
-autocmd FileType sh setlocal shiftwidth=2 tabstop=2 softtabstop=2
-autocmd FileType markdown setlocal shiftwidth=2 tabstop=2 softtabstop=2
+"  ---- VIMWIKI
+let wiki_work = {}
+let wiki_work.path = '~/vimwiki/wiki_work'
+let wiki_work.syntax = 'markdown'
+let wiki_work.ext = '.md'
 
-" Strip whitespaces before EOL
-autocmd FileType yaml.ansible,python,conf,ansible_hosts autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
+let wiki_personal = {}
+let wiki_personal.path = '~/vimwiki/wiki_personal/'
+let wiki_personal.syntax = 'markdown'
+let wiki_personal.ext = '.md'
 
-" Vim jump to the last position when reopening a file
-if has("autocmd")
-  au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-endif
+let g:vimwiki_list = [wiki_work, wiki_personal]
+let g:vimwiki_ext2syntax = {'.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown'}
 
-"colorscheme base16-tomorrow-night 
-colorscheme PaperColor
+command! Diary VimwikiDiaryIndex
+augroup vimwikigroup
+    autocmd!
+    " automatically update links on read diary
+    autocmd BufRead,BufNewFile diary.wiki VimwikiDiaryGenerateLinks
+augroup end
+
+
