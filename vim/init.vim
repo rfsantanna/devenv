@@ -4,7 +4,7 @@
 
 call plug#begin('~/.vim/plugged')
 
-Plug 'preservim/nerdtree'
+"Plug 'preservim/nerdtree'
 Plug 'dhruvasagar/vim-table-mode' 
 Plug 'sheerun/vim-polyglot'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -16,6 +16,11 @@ Plug 'nightsense/carbonized'
 Plug 'chriskempson/base16-vim'
 Plug 'Chiel92/vim-autoformat'
 Plug 'vimwiki/vimwiki', {'branch': 'dev'}
+Plug 'camspiers/animate.vim'
+Plug 'camspiers/lens.vim'
+Plug 'junegunn/fzf.vim'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
 
 call plug#end()
 
@@ -143,7 +148,7 @@ nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
 "  ---- NERDTREE
-map <silent> <C-n> :NERDTreeToggle<CR>
+"map <silent> <C-n> :NERDTreeToggle<CR>
 
 
 "  ---- TERMINAL (floaterm) 
@@ -185,4 +190,20 @@ augroup vimwikigroup
     autocmd BufRead,BufNewFile diary.wiki VimwikiDiaryGenerateLinks
 augroup end
 
+
+"  ---- LENS / ANIMATE
+let g:lens#disabled_filetypes = ['nerdtree', 'fzf']
+"let g:lens#height_resize_min = 4
+"let g:lens#width_resize_min = 15
+
+
+"  ---- FZF
+nnoremap <C-p> :GFiles<Cr>
+
+
+"  ---- SNIPPETS
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+let g:UltiSnipsEditSplit="vertical"
 
