@@ -7,8 +7,6 @@ let g:polyglot_disabled = ['markdown']
 
 call plug#begin('~/.vim/plugged')
 
-"Plug 'preservim/nerdtree'
-"Plug 'dhruvasagar/vim-table-mode' 
 Plug 'sheerun/vim-polyglot'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'itchyny/lightline.vim'
@@ -24,6 +22,12 @@ Plug 'camspiers/lens.vim'
 Plug 'phaazon/hop.nvim'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+Plug 'mhinz/vim-startify'
+Plug 'ryanoasis/vim-devicons'
+Plug 'airblade/vim-rooter'
+Plug 'joshdick/onedark.vim'
+Plug 'sainnhe/sonokai'
+Plug 'sainnhe/everforest'
 
 call plug#end()
 
@@ -31,20 +35,21 @@ call plug#end()
 " SET CONFIGS
 " ----------------------------------------------------------
 
-"colorscheme base16-tomorrow-night 
-colorscheme PaperColor
+"PaperColor, onedark, sonokai, everforest
+colorscheme onedark
+let g:everforest_background = 'hard'
 
-" Set python location for neovim
 if has('win32')
-    let g:python3_host_prog = expand('C:/Python39/python.exe') 
+    let g:python3_host_prog = expand('C:/Python39/python.exe')
 else
-    let g:python3_host_prog = expand('/usr/bin/python3') 
+    let g:python3_host_prog = expand('/usr/bin/python3')
 endif
 
-"set guifont=Hack:h12
 if has('termguicolors')
   set termguicolors
 endif
+
+"set guifont=UbuntuMono:h12
 filetype plugin on
 filetype indent on
 syntax enable
@@ -80,13 +85,12 @@ set softtabstop=4
 set shiftwidth=4
 set autoindent
 set smartindent
-" set tab width for specific files
-autocmd filetype sh setlocal shiftwidth=2 tabstop=2 softtabstop=2
+"autocmd filetype sh setlocal shiftwidth=2 tabstop=2 softtabstop=2
 
 " Folding code By Indentation
 set foldmethod=indent
 set foldlevel=99
-set nofoldenable
+set foldenable
 
 " Vim jump to the last position when reopening a file
 if has("autocmd")
@@ -97,8 +101,12 @@ endif
 let maplocalleader = ";"
 let mapleader = ","
 nnoremap <leader>H :cd ~/code<cr>
-imap jj <ESC> 
+imap jj <ESC>
 tnoremap jj <C-\><C-n>
+cmap <C-v> <C-R>+
+"Remove all trailing whitespace by pressing F5
+nnoremap <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
+
 
 " FUNCTIONS
 " ----------------------------------------------------------
@@ -113,7 +121,7 @@ endfunction
 " PLUGIN CONFIGS
 " ----------------------------------------------------------
 
-"  ---- LIGHTLINE 
+"  ---- LIGHTLINE
 set laststatus=2
 let g:lightline = {
   \   'colorscheme': 'powerline',
@@ -132,6 +140,7 @@ let g:lightline = {
 let g:coc_global_extensions = [
       \ 'coc-pyright',
       \ 'coc-snippets',
+      \ 'coc-explorer',
       \ 'coc-json',
       \ 'coc-powershell'
       \ ]
@@ -151,11 +160,12 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
-"  ---- NERDTREE
-"map <silent> <C-n> :NERDTreeToggle<CR>
+
+"  ---- COC-EXPLORER
+nmap <c-e> :CocCommand explorer --sources buffer+,file+,bookmark+<CR>
 
 
-"  ---- TERMINAL (floaterm) 
+"  ---- TERMINAL (floaterm)
 if has('win32')
     let g:floaterm_shell = 'powershell'
 else
@@ -196,16 +206,46 @@ augroup vimwikigroup
     autocmd BufRead,BufNewFile diary.wiki VimwikiDiaryGenerateLinks
 augroup end
 
-nnoremap <leader>t :VimwikiToggleListItem<CR> 
-nnoremap <leader>lt :VimwikiListToggle<CR> 
+nnoremap <leader>t :VimwikiToggleListItem<CR>
+nnoremap <leader>lt :VimwikiListToggle<CR>
 
 
 "  ---- LENS / ANIMATE
-let g:lens#disabled_filetypes = ['nerdtree', 'fzf']
-let g:lens#height_resize_min = 5
-let g:lens#width_resize_min = 10
-let g:lens#width_resize_max = 200
-
+let g:animate#duration = 100.0
+let g:animate#easing_func = 'animate#ease_out_cubic'
+let g:lens#height_resize_min = 15
+let g:lens#height_resize_max = 35
+let g:lens#width_resize_min = 25
+let g:lens#width_resize_max = 150
+let g:lens#disabled_filetypes = ['nerdtree', 'fzf', 'coc-explorer']
+nnoremap <silent> <Up>    :call animate#window_delta_height(10)<CR>
+nnoremap <silent> <Down>  :call animate#window_delta_height(-10)<CR>
+nnoremap <silent> <Left>  :call animate#window_delta_width(-10)<CR>
+nnoremap <silent> <Right> :call animate#window_delta_width(10)<CR>
+nnoremap <silent> <C-Right> :call animate#window_percent_width(0.9)<CR>
 
 "  ---- FZF
-nnoremap <C-p> :Files<Cr>
+nnoremap <C-0> :Files<Cr>
+
+
+"  ---- STARTIFY
+let g:startify_custom_header = [
+\ ' ███╗   ██╗ ███████╗ ██████╗  ██╗   ██╗ ██╗ ███╗   ███╗',
+\ ' ████╗  ██║ ██╔════╝██╔═══██╗ ██║   ██║ ██║ ████╗ ████║',
+\ ' ██╔██╗ ██║ █████╗  ██║   ██║ ██║   ██║ ██║ ██╔████╔██║',
+\ ' ██║╚██╗██║ ██╔══╝  ██║   ██║ ╚██╗ ██╔╝ ██║ ██║╚██╔╝██║',
+\ ' ██║ ╚████║ ███████╗╚██████╔╝  ╚████╔╝  ██║ ██║ ╚═╝ ██║',
+\ ' ╚═╝  ╚═══╝ ╚══════╝ ╚═════╝    ╚═══╝   ╚═╝ ╚═╝     ╚═╝',
+\]
+
+let g:startify_padding_left = 5
+let g:startify_files_number           = 10
+let g:startify_session_persistence    = 1
+nnoremap <leader>ls :SSave<CR>
+nnoremap <leader>ll :SClose<CR>
+
+
+"  ---- VIM-ROOTER
+let g:rooter_change_directory_for_non_project_files = 'home'
+let g:rooter_patterns = ['.git', 'Makefile']
+
