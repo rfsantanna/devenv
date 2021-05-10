@@ -2,10 +2,13 @@
 " PLUGINS
 " ----------------------------------------------------------
 
+let g:polyglot_disabled = ['markdown']
+
+
 call plug#begin('~/.vim/plugged')
 
 "Plug 'preservim/nerdtree'
-Plug 'dhruvasagar/vim-table-mode' 
+"Plug 'dhruvasagar/vim-table-mode' 
 Plug 'sheerun/vim-polyglot'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'itchyny/lightline.vim'
@@ -18,9 +21,9 @@ Plug 'Chiel92/vim-autoformat'
 Plug 'vimwiki/vimwiki', {'branch': 'dev'}
 Plug 'camspiers/animate.vim'
 Plug 'camspiers/lens.vim'
+Plug 'phaazon/hop.nvim'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
 
 call plug#end()
 
@@ -38,6 +41,7 @@ else
     let g:python3_host_prog = expand('/usr/bin/python3') 
 endif
 
+"set guifont=Hack:h12
 if has('termguicolors')
   set termguicolors
 endif
@@ -138,7 +142,7 @@ inoremap <silent><expr> <TAB>
       \ coc#refresh()
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 " Use <c-space> to trigger completion.
-inoremap <silent><expr> <c-space> coc#refresh()
+"inoremap <silent><expr> <c-space> coc#refresh()
 " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
 inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 " Remap keys for gotos
@@ -160,8 +164,10 @@ endif
 hi FloatermBorder guifg=orange
 let g:floaterm_borderchars = ['-', '│', '-', '│', '╭', '╮', '╯', '╰']
 let g:floaterm_position = 'bottomright'
-nnoremap <silent> <C-s><C-p> :FloatermNew --title=Powershell($1/$2) --name=powershell powershell<cr>
-nnoremap <silent> <C-s><C-b> :FloatermNew --title=bash($1/$2) --name=bash bash<cr>
+nnoremap <silent> <C-s><C-p> :FloatermNew --title=Powershell($1/$2) --name=ps powershell<cr>
+nnoremap <silent> <C-s><C-b> :FloatermNew --title=bash($1/$2) --name=sh bash<cr>
+nnoremap <silent> <C-s><C-g> :FloatermNew --title=LazyGit($1/$2) --width=0.8 --height=0.8 --position=center --name=git lazygit<cr>
+
 nnoremap <silent> <C-s><C-s> :FloatermToggle<cr>
 tnoremap <C-s><C-s> <C-\><C-n>:FloatermToggle<cr>
 nnoremap <silent> <C-s><C-j> <C-\><C-n>:FloatermNext<cr>
@@ -190,20 +196,16 @@ augroup vimwikigroup
     autocmd BufRead,BufNewFile diary.wiki VimwikiDiaryGenerateLinks
 augroup end
 
+nnoremap <leader>t :VimwikiToggleListItem<CR> 
+nnoremap <leader>lt :VimwikiListToggle<CR> 
+
 
 "  ---- LENS / ANIMATE
 let g:lens#disabled_filetypes = ['nerdtree', 'fzf']
-"let g:lens#height_resize_min = 4
-"let g:lens#width_resize_min = 15
+let g:lens#height_resize_min = 5
+let g:lens#width_resize_min = 10
+let g:lens#width_resize_max = 200
 
 
 "  ---- FZF
-nnoremap <C-p> :GFiles<Cr>
-
-
-"  ---- SNIPPETS
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<c-b>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-let g:UltiSnipsEditSplit="vertical"
-
+nnoremap <C-p> :Files<Cr>
