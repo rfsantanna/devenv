@@ -22,22 +22,38 @@ Plug 'camspiers/lens.vim'
 Plug 'phaazon/hop.nvim'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-Plug 'mhinz/vim-startify'
 Plug 'ryanoasis/vim-devicons'
 Plug 'airblade/vim-rooter'
 Plug 'joshdick/onedark.vim'
 Plug 'sainnhe/sonokai'
 Plug 'sainnhe/everforest'
+Plug 'ayu-theme/ayu-vim'
+Plug 'drewtempelmeyer/palenight.vim'
+Plug 'embark-theme/vim', { 'as': 'embark' }
+Plug 'cormacrelf/vim-colors-github'
+Plug 'romainl/vim-cool'
+Plug 'dracula/vim', { 'dir': 'dracula-vim' }
+Plug 'lifepillar/vim-gruvbox8'
+Plug 'blueyed/vim-diminactive'
+Plug 'Yggdroot/hiPairs'
+Plug 'tpope/vim-surround'
 
 call plug#end()
 
 
 " SET CONFIGS
 " ----------------------------------------------------------
+" init.vim
+let g:nvy = 1
 
-"PaperColor, onedark, sonokai, everforest
-colorscheme onedark
+set guifont=Hack:h10
+"set background=dark
+let g:github_colors_soft = 1
+let ayucolor="mirage"  " dark, mirage, light
 let g:everforest_background = 'hard'
+let g:sonokai_style = 'maia'
+"PaperColor, onedark, sonokai, everforest, ayu
+colorscheme gruvbox8_hard
 
 if has('win32')
     let g:python3_host_prog = expand('C:/Python39/python.exe')
@@ -49,48 +65,46 @@ if has('termguicolors')
   set termguicolors
 endif
 
-"set guifont=UbuntuMono:h12
 filetype plugin on
 filetype indent on
 syntax enable
-set fileformat=unix
+"set fileformat=unix
 set clipboard^=unnamed,unnamedplus    " Get Machine Clipboard
 set guioptions=c                      " no gui options bar
 set nocompatible                      " no vi-compatible
-set ls=2                              " always show status bar
-set bs=2                              " fix backspace issues
+"set ls=2                              " always show status bar
+"set bs=2                              " fix backspace issues
 set number                            " show number
 set rnu                               " relative number
-set showcmd
-set cursorline
-set backspace=2
-set hlsearch
+"set showcmd
+"set cursorline
+"set backspace=2
+"set hlsearch
 set ignorecase
-set novisualbell
-set noerrorbells
-set showmatch
-set nobackup
-set nowritebackup
-set nowrap
-set tags=tags;
-set colorcolumn=80
-set spelllang=pt_br,en
-set noswapfile
-set noshowmode
-
-" Tabs and Spaces configuration
+"set novisualbell
+"set noerrorbells
+"set showmatch
+"set nobackup
+"set nowritebackup
+"set nowrap
+"set tags=tags;
+"set colorcolumn=80
+"set spelllang=pt_br,en
+"set noswapfile
+"set noshowmode
+"
+"" Tabs and Spaces configuration
 set expandtab
 set tabstop=4
 set softtabstop=4
 set shiftwidth=4
 set autoindent
 set smartindent
-"autocmd filetype sh setlocal shiftwidth=2 tabstop=2 softtabstop=2
-
-" Folding code By Indentation
-set foldmethod=indent
-set foldlevel=99
-set foldenable
+"
+"" Folding code By Indentation
+"set foldmethod=indent
+"set foldlevel=99
+"set foldenable
 
 " Vim jump to the last position when reopening a file
 if has("autocmd")
@@ -121,6 +135,13 @@ endfunction
 " PLUGIN CONFIGS
 " ----------------------------------------------------------
 
+"  ---- VIM-DIMINACTIVE
+let g:diminactive_use_colorcolumn = 0
+let g:diminactive_use_syntax = 1
+let g:diminactive_enable_focus = 1
+inoremap <silent> <C-s> <C-y><esc>:DimInactiveSyntaxOn<cr>a
+
+
 "  ---- LIGHTLINE
 set laststatus=2
 let g:lightline = {
@@ -148,11 +169,8 @@ let g:coc_global_extensions = [
 inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
+      \ coc#refresh() 
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-" Use <c-space> to trigger completion.
-"inoremap <silent><expr> <c-space> coc#refresh()
-" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
 inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 " Remap keys for gotos
 nmap <silent> gd <Plug>(coc-definition)
@@ -162,7 +180,7 @@ nmap <silent> gr <Plug>(coc-references)
 
 
 "  ---- COC-EXPLORER
-nmap <c-e> :CocCommand explorer --sources buffer+,file+,bookmark+<CR>
+nmap <silent> <c-e> :CocCommand explorer --sources buffer+,file+,bookmark+<CR>
 
 
 "  ---- TERMINAL (floaterm)
@@ -171,8 +189,9 @@ if has('win32')
 else
     let g:floaterm_shell = 'bash'
 endif
-hi FloatermBorder guifg=orange
-let g:floaterm_borderchars = ['-', '│', '-', '│', '╭', '╮', '╯', '╰']
+hi FloatermBorder guifg=green2
+hi Floaterm guibg=gray5 guifg=white
+"let g:floaterm_borderchars = ['-', '│', '-', '│', '╭', '╮', '╯', '╰']
 let g:floaterm_position = 'bottomright'
 nnoremap <silent> <C-s><C-p> :FloatermNew --title=Powershell($1/$2) --name=ps powershell<cr>
 nnoremap <silent> <C-s><C-b> :FloatermNew --title=bash($1/$2) --name=sh bash<cr>
@@ -211,39 +230,21 @@ nnoremap <leader>lt :VimwikiListToggle<CR>
 
 
 "  ---- LENS / ANIMATE
-let g:animate#duration = 100.0
-let g:animate#easing_func = 'animate#ease_out_cubic'
-let g:lens#height_resize_min = 15
-let g:lens#height_resize_max = 35
-let g:lens#width_resize_min = 25
-let g:lens#width_resize_max = 150
+let g:animate#duration = 10.0
+"let g:animate#easing_func = 'animate#ease_out_cubic'
+let g:lens#height_resize_min = 20
+let g:lens#height_resize_max = 40
+let g:lens#width_resize_min = 20
+let g:lens#width_resize_max = 180
 let g:lens#disabled_filetypes = ['nerdtree', 'fzf', 'coc-explorer']
 nnoremap <silent> <Up>    :call animate#window_delta_height(10)<CR>
 nnoremap <silent> <Down>  :call animate#window_delta_height(-10)<CR>
-nnoremap <silent> <Left>  :call animate#window_delta_width(-10)<CR>
-nnoremap <silent> <Right> :call animate#window_delta_width(10)<CR>
+nnoremap <silent> <Left>  :call animate#window_delta_width(-20)<CR>
+nnoremap <silent> <Right> :call animate#window_delta_width(20)<CR>
 nnoremap <silent> <C-Right> :call animate#window_percent_width(0.9)<CR>
 
 "  ---- FZF
 nnoremap <C-0> :Files<Cr>
-
-
-"  ---- STARTIFY
-let g:startify_custom_header = [
-\ ' ███╗   ██╗ ███████╗ ██████╗  ██╗   ██╗ ██╗ ███╗   ███╗',
-\ ' ████╗  ██║ ██╔════╝██╔═══██╗ ██║   ██║ ██║ ████╗ ████║',
-\ ' ██╔██╗ ██║ █████╗  ██║   ██║ ██║   ██║ ██║ ██╔████╔██║',
-\ ' ██║╚██╗██║ ██╔══╝  ██║   ██║ ╚██╗ ██╔╝ ██║ ██║╚██╔╝██║',
-\ ' ██║ ╚████║ ███████╗╚██████╔╝  ╚████╔╝  ██║ ██║ ╚═╝ ██║',
-\ ' ╚═╝  ╚═══╝ ╚══════╝ ╚═════╝    ╚═══╝   ╚═╝ ╚═╝     ╚═╝',
-\]
-
-let g:startify_padding_left = 5
-let g:startify_files_number           = 10
-let g:startify_session_persistence    = 1
-nnoremap <leader>ls :SSave<CR>
-nnoremap <leader>ll :SClose<CR>
-
 
 "  ---- VIM-ROOTER
 let g:rooter_change_directory_for_non_project_files = 'home'

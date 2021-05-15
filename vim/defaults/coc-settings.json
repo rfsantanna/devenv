@@ -2,11 +2,12 @@
     "explorer.icon.enableVimDevicons": true,
     "explorer.icon.enableNerdfont": true,
     "explorer.position": "floating",
-    "explorer.floating.width": 50,
+    "explorer.floating.width": 55,
     "explorer.floating.height": 40,
     "explorer.floating.position": "right-center",
     "explorer.file.showHiddenFiles": true,
     "powershell.powerShellExePath": "powershell.exe",
+    "powershell.scriptAnalysis.enable": false,
     "languageserver": {
         "terraform": {
             "command": "terraform-ls",
