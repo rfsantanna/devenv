@@ -4,39 +4,37 @@
 
 let g:polyglot_disabled = ['markdown']
 
-
 call plug#begin('~/.vim/plugged')
 
-Plug 'sheerun/vim-polyglot'
+" SYNTAX
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'itchyny/lightline.vim'
-Plug 'tpope/vim-fugitive'
+Plug 'sheerun/vim-polyglot'
 Plug 'jiangmiao/auto-pairs'
-Plug 'voldikss/vim-floaterm'
-Plug 'nightsense/carbonized'
-Plug 'chriskempson/base16-vim'
-Plug 'Chiel92/vim-autoformat'
-Plug 'vimwiki/vimwiki', {'branch': 'dev'}
-Plug 'camspiers/animate.vim'
-Plug 'camspiers/lens.vim'
-Plug 'phaazon/hop.nvim'
+Plug 'Yggdroot/hiPairs'
+Plug 'tpope/vim-fugitive'
+" SEARCH UTILS
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-Plug 'ryanoasis/vim-devicons'
+" DEVELOPER IMPROVEMENTS
+Plug 'voldikss/vim-floaterm' 
+Plug 'camspiers/animate.vim'
+Plug 'camspiers/lens.vim'
+Plug 'blueyed/vim-diminactive'
+Plug 'romainl/vim-cool'
 Plug 'airblade/vim-rooter'
+" THEMES
+Plug 'itchyny/lightline.vim'
+Plug 'ryanoasis/vim-devicons'
+Plug 'drewtempelmeyer/palenight.vim'
+Plug 'lifepillar/vim-gruvbox8'
 Plug 'joshdick/onedark.vim'
 Plug 'sainnhe/sonokai'
 Plug 'sainnhe/everforest'
 Plug 'ayu-theme/ayu-vim'
-Plug 'drewtempelmeyer/palenight.vim'
-Plug 'embark-theme/vim', { 'as': 'embark' }
-Plug 'cormacrelf/vim-colors-github'
-Plug 'romainl/vim-cool'
-Plug 'dracula/vim', { 'dir': 'dracula-vim' }
-Plug 'lifepillar/vim-gruvbox8'
-Plug 'blueyed/vim-diminactive'
-Plug 'Yggdroot/hiPairs'
-Plug 'tpope/vim-surround'
+
+"Plug 'tpope/vim-surround'
+"Plug 'phaazon/hop.nvim'
+"Plug 'Chiel92/vim-autoformat'
 
 call plug#end()
 
@@ -46,7 +44,7 @@ call plug#end()
 " init.vim
 let g:nvy = 1
 
-set guifont=Hack:h10
+set guifont=FiraCode:h11
 "set background=dark
 let g:github_colors_soft = 1
 let ayucolor="mirage"  " dark, mirage, light
@@ -72,7 +70,7 @@ syntax enable
 set clipboard^=unnamed,unnamedplus    " Get Machine Clipboard
 set guioptions=c                      " no gui options bar
 set nocompatible                      " no vi-compatible
-"set ls=2                              " always show status bar
+set ls=2                              " always show status bar
 "set bs=2                              " fix backspace issues
 set number                            " show number
 set rnu                               " relative number
@@ -84,14 +82,14 @@ set ignorecase
 "set novisualbell
 "set noerrorbells
 "set showmatch
-"set nobackup
-"set nowritebackup
-"set nowrap
+set nobackup
+set nowritebackup
+set nowrap
 "set tags=tags;
-"set colorcolumn=80
+set colorcolumn=80
 "set spelllang=pt_br,en
-"set noswapfile
-"set noshowmode
+set noswapfile
+set noshowmode
 "
 "" Tabs and Spaces configuration
 set expandtab
@@ -101,10 +99,10 @@ set shiftwidth=4
 set autoindent
 set smartindent
 "
-"" Folding code By Indentation
-"set foldmethod=indent
+" Fold configs
+set foldmethod=syntax
 "set foldlevel=99
-"set foldenable
+set foldenable
 
 " Vim jump to the last position when reopening a file
 if has("autocmd")
@@ -136,14 +134,12 @@ endfunction
 " ----------------------------------------------------------
 
 "  ---- VIM-DIMINACTIVE
-let g:diminactive_use_colorcolumn = 0
-let g:diminactive_use_syntax = 1
-let g:diminactive_enable_focus = 1
-inoremap <silent> <C-s> <C-y><esc>:DimInactiveSyntaxOn<cr>a
-
+let g:diminactive_use_colorcolumn = 1
+let g:diminactive_use_syntax = 0
+let g:diminactive_enable_focus = 0
+let g:diminactive_buftype_blacklist = ['nofile', 'nowrite', 'acwrite', 'quickfix', 'help']
 
 "  ---- LIGHTLINE
-set laststatus=2
 let g:lightline = {
   \   'colorscheme': 'powerline',
   \   'active': {
@@ -151,10 +147,23 @@ let g:lightline = {
   \              [ 'gitbranch', 'readonly', 'absolutepath', 'modified' ]
   \     ]
   \   },
+  \  'inactive': {
+  \     'left': [ [ 'filename' ] ],
+  \     'right': [ [ 'lineinfo' ], [ 'percent' ] ]
+  \   },
+  \  'tabline': {
+  \      'left': [ [ 'tabs' ] ],
+  \      'right': []
+  \     },
+  \  'tab': {
+  \      'active': [ 'tabnum', 'readonly', 'filename', 'modified' ],
+  \      'inactive': [ 'tabnum', 'readonly', 'filename', 'modified' ]
+  \     },
   \   'component_function': {
   \     'gitbranch': 'fugitive#head',
   \   }
   \ }
+
 
 
 "  ---- COC
@@ -191,7 +200,6 @@ else
 endif
 hi FloatermBorder guifg=green2
 hi Floaterm guibg=gray5 guifg=white
-"let g:floaterm_borderchars = ['-', '│', '-', '│', '╭', '╮', '╯', '╰']
 let g:floaterm_position = 'bottomright'
 nnoremap <silent> <C-s><C-p> :FloatermNew --title=Powershell($1/$2) --name=ps powershell<cr>
 nnoremap <silent> <C-s><C-b> :FloatermNew --title=bash($1/$2) --name=sh bash<cr>
@@ -203,39 +211,13 @@ nnoremap <silent> <C-s><C-j> <C-\><C-n>:FloatermNext<cr>
 tnoremap <silent> <C-s><C-j> <C-\><C-n>:FloatermNext<cr>
 
 
-"  ---- VIMWIKI
-let wiki_work = {}
-let wiki_work.path = '~/vimwiki/wiki_work'
-let wiki_work.syntax = 'markdown'
-let wiki_work.ext = '.md'
-
-let wiki_personal = {}
-let wiki_personal.path = '~/vimwiki/wiki_personal/'
-let wiki_personal.syntax = 'markdown'
-let wiki_personal.ext = '.md'
-
-let g:vimwiki_markdown_link_ext = 1
-let g:vimwiki_list = [wiki_work, wiki_personal]
-let g:vimwiki_ext2syntax = {'.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown'}
-
-command! Diary VimwikiDiaryIndex
-augroup vimwikigroup
-    autocmd!
-    " automatically update links on read diary
-    autocmd BufRead,BufNewFile diary.wiki VimwikiDiaryGenerateLinks
-augroup end
-
-nnoremap <leader>t :VimwikiToggleListItem<CR>
-nnoremap <leader>lt :VimwikiListToggle<CR>
-
-
 "  ---- LENS / ANIMATE
-let g:animate#duration = 10.0
-"let g:animate#easing_func = 'animate#ease_out_cubic'
-let g:lens#height_resize_min = 20
-let g:lens#height_resize_max = 40
-let g:lens#width_resize_min = 20
-let g:lens#width_resize_max = 180
+let g:animate#duration = 100.0
+let g:animate#easing_func = 'animate#ease_out_cubic'
+let g:lens#height_resize_min = 10
+let g:lens#height_resize_max = 30
+let g:lens#width_resize_min = 30
+let g:lens#width_resize_max = 170
 let g:lens#disabled_filetypes = ['nerdtree', 'fzf', 'coc-explorer']
 nnoremap <silent> <Up>    :call animate#window_delta_height(10)<CR>
 nnoremap <silent> <Down>  :call animate#window_delta_height(-10)<CR>
@@ -250,3 +232,5 @@ nnoremap <C-0> :Files<Cr>
 let g:rooter_change_directory_for_non_project_files = 'home'
 let g:rooter_patterns = ['.git', 'Makefile']
 
+" VIM-COOL
+let g:CoolTotalMatches = 1
