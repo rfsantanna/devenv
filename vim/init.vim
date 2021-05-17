@@ -2,7 +2,7 @@
 " PLUGINS
 " ----------------------------------------------------------
 
-let g:polyglot_disabled = ['markdown']
+let g:polyglot_disabled = ['DEVELOPER']
 
 call plug#begin('~/.vim/plugged')
 
@@ -115,6 +115,7 @@ let mapleader = ","
 nnoremap <leader>H :cd ~/code<cr>
 imap jj <ESC>
 tnoremap jj <C-\><C-n>
+tnoremap <S-space> <space>
 cmap <C-v> <C-R>+
 "Remove all trailing whitespace by pressing F5
 nnoremap <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
