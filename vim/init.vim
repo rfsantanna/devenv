@@ -44,9 +44,8 @@ call plug#end()
 " init.vim
 let g:nvy = 1
 
-set guifont=FiraCode:h11
-"set background=dark
-let g:github_colors_soft = 1
+set guifont=Hack:h10
+set background=dark
 let ayucolor="mirage"  " dark, mirage, light
 let g:everforest_background = 'hard'
 let g:sonokai_style = 'maia'
@@ -119,7 +118,7 @@ tnoremap <S-space> <space>
 cmap <C-v> <C-R>+
 "Remove all trailing whitespace by pressing F5
 nnoremap <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
-
+nnoremap <Leader>q :bdelete<CR>
 
 " FUNCTIONS
 " ----------------------------------------------------------
@@ -187,9 +186,7 @@ nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
-
-
-"  ---- COC-EXPLORER
+" coc-explorer
 nmap <silent> <c-e> :CocCommand explorer --sources buffer+,file+,bookmark+<CR>
 
 
@@ -199,9 +196,11 @@ if has('win32')
 else
     let g:floaterm_shell = 'bash'
 endif
+
 hi FloatermBorder guifg=green2
 hi Floaterm guibg=gray5 guifg=white
 let g:floaterm_position = 'bottomright'
+
 nnoremap <silent> <C-s><C-p> :FloatermNew --title=Powershell($1/$2) --name=ps powershell<cr>
 nnoremap <silent> <C-s><C-b> :FloatermNew --title=bash($1/$2) --name=sh bash<cr>
 nnoremap <silent> <C-s><C-g> :FloatermNew --title=LazyGit($1/$2) --width=0.8 --height=0.8 --position=center --name=git lazygit<cr>
@@ -230,7 +229,7 @@ nnoremap <silent> <C-Right> :call animate#window_percent_width(0.9)<CR>
 nnoremap <C-0> :Files<Cr>
 
 "  ---- VIM-ROOTER
-let g:rooter_change_directory_for_non_project_files = 'home'
+"let g:rooter_change_directory_for_non_project_files = 'home'
 let g:rooter_patterns = ['.git', 'Makefile']
 
 " VIM-COOL
