@@ -239,7 +239,7 @@ nnoremap <silent> <C-s><C-p> :FloatermNew --title=Powershell($1/$2) --name=ps po
 nnoremap <silent> <C-s><C-b> :FloatermNew --title=bash($1/$2) --name=sh bash<cr>
 nnoremap <silent> <C-s><C-g> :FloatermNew --title=LazyGit($1/$2) --width=0.8 --height=0.8 --position=center --name=git lazygit<cr>
 nnoremap <silent> <C-s><C-s> :FloatermToggle<cr>
-tnoremap <C-s><C-s> <C-\><C-n>:FloatermToggle<cr>
+tnoremap <silent> <C-s><C-s> <C-\><C-n>:FloatermToggle<cr>
 nnoremap <silent> <C-s><C-j> <C-\><C-n>:FloatermNext<cr>
 tnoremap <silent> <C-s><C-j> <C-\><C-n>:FloatermNext<cr>
 
