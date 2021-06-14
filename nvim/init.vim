@@ -23,7 +23,9 @@ Plug 'junegunn/fzf.vim'
 
 " DEVELOPER IMPROVEMENTS
 Plug 'tpope/vim-fugitive'
-Plug 'jiangmiao/auto-pairs'
+"Plug 'jiangmiao/auto-pairs'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-repeat'
 Plug 'Yggdroot/hiPairs'
 Plug 'airblade/vim-rooter'
 Plug 'Konfekt/FastFold', {'for': 'python'}
@@ -67,7 +69,7 @@ let ayucolor="dark"  " dark, mirage, light
 let g:everforest_background = 'hard'
 "let g:sonokai_style = 'maia'
 "PaperColor, onedark, sonokai, everforest, ayu
-colorscheme ayu
+colorscheme gruvbox8_hard
 
 if has('win32')
     let g:python3_host_prog = expand('C:/Python39/python.exe')
@@ -164,7 +166,7 @@ function! s:check_back_space() abort
 endfunction
 
 " ScriptRunner
-command! -nargs=1 ScriptRunner !echo <q-args> | powershell.exe \\afs\Rotinas\ScriptRunner\SubmitScript.ps1
+command! -nargs=1 ScriptRunner :FloatermNew --title=ScriptRunner($1/$2) powershell "echo '<q-args>' | powershell.exe \\afs\Rotinas\ScriptRunner\SubmitScript.ps1"
 
 
 " PLUGIN CONFIGS
@@ -230,18 +232,18 @@ else
     let g:floaterm_shell = 'bash'
 endif
 
-hi FloatermBorder guifg=green2
+hi FloatermBorder guifg=orchid1
 hi Floaterm guibg=gray5 guifg=white
 let g:floaterm_position = 'center'
 let g:floaterm_height = 0.8
 let g:floaterm_width = 0.8
-nnoremap <silent> <C-s><C-p> :FloatermNew --title=Powershell($1/$2) --name=ps powershell<cr>
-nnoremap <silent> <C-s><C-b> :FloatermNew --title=bash($1/$2) --name=sh bash<cr>
-nnoremap <silent> <C-s><C-g> :FloatermNew --title=LazyGit($1/$2) --width=0.8 --height=0.8 --position=center --name=git lazygit<cr>
-nnoremap <silent> <C-s><C-s> :FloatermToggle<cr>
-tnoremap <silent> <C-s><C-s> <C-\><C-n>:FloatermToggle<cr>
-nnoremap <silent> <C-s><C-j> <C-\><C-n>:FloatermNext<cr>
-tnoremap <silent> <C-s><C-j> <C-\><C-n>:FloatermNext<cr>
+nnoremap <silent> <C-x><C-p> :FloatermNew --title=Powershell($1/$2) --name=ps powershell<cr>
+nnoremap <silent> <C-x><C-b> :FloatermNew --title=bash($1/$2) --name=sh bash<cr>
+nnoremap <silent> <C-x><C-g> :FloatermNew --title=LazyGit($1/$2) --width=0.8 --height=0.8 --position=center --name=git lazygit<cr>
+nnoremap <silent> <C-x><C-x> :FloatermToggle<cr>
+tnoremap <silent> <C-x><C-x> <C-\><C-n>:FloatermToggle<cr>
+nnoremap <silent> <C-x><C-j> <C-\><C-n>:FloatermNext<cr>
+tnoremap <silent> <C-x><C-j> <C-\><C-n>:FloatermNext<cr>
 
 
 "  ---- LENS / ANIMATE
