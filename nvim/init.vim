@@ -294,15 +294,15 @@ inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })
 
 
 
+"require'lspconfig'.pyright.setup{
+"  on_attach = require'compe'.on_attach,
+"}
 "  ---- LUA MODULES
 lua << EOF
 require'lspconfig'.powershell_es.setup{
   bundle_path = '~/PowerShellEditorServices',
   on_attach = require'compe'.on_attach
 } 
-require'lspconfig'.pyright.setup{
-  on_attach = require'compe'.on_attach,
-}
 require'lspconfig'.terraformls.setup{}
 require'shade'.setup({
   overlay_opacity = 50,
@@ -313,6 +313,10 @@ require'shade'.setup({
     toggle           = '<Leader>s',
   }
 })
+require'lspconfig'.yamlls.setup{
+    cmd = {"yaml-language-server.cmd", "--stdio"}
+}
+require'lspconfig'.jedi_language_server.setup{}
 require('lualine').setup {
     options = {theme = 'horizon'}
 }
