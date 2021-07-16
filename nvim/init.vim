@@ -16,6 +16,7 @@ Plug 'hashivim/vim-terraform'
 " MARKDOWN
 Plug 'SidOfc/mkdx', {'for': 'markdown'}
 Plug 'npxbr/glow.nvim', {'do':':GlowInstall','branch':'main','for': 'markdown'}
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 
 " SEARCH UTILS
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -34,7 +35,6 @@ Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 
 " UI
 Plug 'hoob3rt/lualine.nvim'
-"Plug 'itchyny/lightline.vim'
 Plug 'voldikss/vim-floaterm' 
 Plug 'sunjon/shade.nvim'
 Plug 'nvim-lua/popup.nvim'
@@ -68,8 +68,8 @@ set background=dark
 let ayucolor="dark"  " dark, mirage, light
 let g:everforest_background = 'hard'
 "let g:sonokai_style = 'maia'
-"PaperColor, onedark, sonokai, everforest, ayu
-colorscheme gruvbox8_hard
+"PaperColor, onedark, sonokai, everforest, ayu, gruvbox8_hard
+colorscheme ayu
 
 if has('win32')
     let g:python3_host_prog = expand('C:/Python39/python.exe')
@@ -118,8 +118,8 @@ set expandtab
 set tabstop=4
 set softtabstop=4
 set shiftwidth=4
-set autoindent
-set smartindent
+"set autoindent
+"set smartindent
 "
 " Fold configs
 set foldmethod=syntax
@@ -199,32 +199,6 @@ nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
 nnoremap <leader>fe <cmd>lua require('telescope.builtin').file_browser()<cr>
 nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
 
-"  ---- LIGHTLINE
-let g:lightline = {
-  \   'colorscheme': 'powerline',
-  \   'active': {
-  \     'left':[ [ 'mode', 'paste' ],
-  \              [ 'gitbranch', 'readonly', 'filename', 'modified' ]
-  \     ]
-  \   },
-  \  'inactive': {
-  \     'left': [ [ 'filename' ] ],
-  \     'right': [ [ 'lineinfo' ], [ 'percent' ] ]
-  \   },
-  \  'tabline': {
-  \      'left': [ [ 'tabs' ] ],
-  \      'right': []
-  \     },
-  \  'tab': {
-  \      'active': [ 'tabnum', 'readonly', 'filename', 'modified' ],
-  \      'inactive': [ 'tabnum', 'readonly', 'filename', 'modified' ]
-  \     },
-  \   'component_function': {
-  \     'gitbranch': 'fugitive#head',
-  \   }
-  \ }
-
-
 "  ---- TERMINAL (floaterm)
 if has('win32')
     let g:floaterm_shell = 'powershell'
@@ -262,7 +236,7 @@ nnoremap <silent> <C-Right> :call animate#window_percent_width(0.9)<CR>
 
 "  ---- FUGITIVE
 nnoremap <Leader>gs :Git<cr><c-w>T
-nnoremap <Leader>go :execute '!start "" "' . FugitiveRemoteUrl('origin') . '"'<cr>
+command! GitRepo :execute '!start "" "' . FugitiveRemoteUrl('origin') . '"'
 
 
 
