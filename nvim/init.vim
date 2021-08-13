@@ -53,7 +53,9 @@ Plug 'joshdick/onedark.vim'
 Plug 'sainnhe/sonokai'
 Plug 'sainnhe/everforest'
 Plug 'ayu-theme/ayu-vim'
-
+Plug 'tjdevries/colorbuddy.vim'
+Plug 'bkegley/gloombuddy'
+Plug 'projekt0n/github-nvim-theme'
 
 call plug#end()
 
@@ -69,7 +71,7 @@ let ayucolor="dark"  " dark, mirage, light
 let g:everforest_background = 'hard'
 "let g:sonokai_style = 'maia'
 "PaperColor, onedark, sonokai, everforest, ayu, gruvbox8_hard
-colorscheme ayu
+colorscheme sonokai
 
 if has('win32')
     let g:python3_host_prog = expand('C:/Python39/python.exe')
@@ -291,7 +293,14 @@ require'lspconfig'.yamlls.setup{
     cmd = {"yaml-language-server.cmd", "--stdio"}
 }
 require'lspconfig'.jedi_language_server.setup{}
+require("github-theme").setup({
+  themeStyle = "dark",
+  sidebars = {"qf", "vista_kind", "terminal", "packer"},
+
+  -- Change the "hint" color to the "orange" color, and make the "error" color bright red
+  colors = {hint = "orange", error = "#ff0000"}
+})
 require('lualine').setup {
-    options = {theme = 'horizon'}
+    options = {theme = 'github'}
 }
 EOF
