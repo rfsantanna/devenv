@@ -32,8 +32,6 @@ elif [ "$CONF_TYPE" == 'vim' ]; then
   vim +'PlugInstall --sync' +qa  &> /dev/null
 
 elif [ "$CONF_TYPE" == 'nvim' ]; then
-  #apt install python nodejs vim git neovim
-  pip install neovim
   f_title "NVIM :: Installing vim-plug"
   curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs \
       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim

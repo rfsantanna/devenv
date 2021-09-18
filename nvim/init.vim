@@ -56,6 +56,8 @@ Plug 'ayu-theme/ayu-vim'
 Plug 'tjdevries/colorbuddy.vim'
 Plug 'bkegley/gloombuddy'
 Plug 'projekt0n/github-nvim-theme'
+Plug 'marko-cerovac/material.nvim'
+
 
 call plug#end()
 
@@ -64,15 +66,6 @@ call plug#end()
 " ----------------------------------------------------------
 " init.vim
 "let g:nvy = 1
-
-set guifont=Hack:h12
-set background=dark
-let ayucolor="dark"  " dark, mirage, light
-let g:everforest_background = 'hard'
-"let g:sonokai_style = 'maia'
-"PaperColor, onedark, sonokai, everforest, ayu, gruvbox8_hard
-colorscheme sonokai
-
 if has('win32')
     let g:python3_host_prog = expand('C:/Python39/python.exe')
 else
@@ -276,7 +269,7 @@ inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })
 "  ---- LUA MODULES
 lua << EOF
 require'lspconfig'.powershell_es.setup{
-  bundle_path = '~/PowerShellEditorServices',
+  bundle_path = '~/PowershellES',
   on_attach = require'compe'.on_attach
 } 
 require'lspconfig'.terraformls.setup{}
@@ -293,14 +286,13 @@ require'lspconfig'.yamlls.setup{
     cmd = {"yaml-language-server.cmd", "--stdio"}
 }
 require'lspconfig'.jedi_language_server.setup{}
-require("github-theme").setup({
-  themeStyle = "dark",
-  sidebars = {"qf", "vista_kind", "terminal", "packer"},
-
-  -- Change the "hint" color to the "orange" color, and make the "error" color bright red
-  colors = {hint = "orange", error = "#ff0000"}
-})
 require('lualine').setup {
-    options = {theme = 'github'}
+    options = {theme = 'material-nvim'}
 }
 EOF
+
+
+set guifont=Hack:h12
+set background=dark
+let g:material_style = 'palenight'
+colorscheme material
