@@ -3,7 +3,7 @@
     email = rafaelsantanna@outlook.com
     username = rfsantanna
 [core]
-    editor = vim
+    editor = nvim
     autocrlf = input
     eol = lf
 #    pager = less -FRSX
