@@ -17,7 +17,7 @@ apt install -y fzf ripgrep
 
 # Terraform
 sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
-sudo apt-get install terraform -y
+sudo apt-get install terraform terraform-ls -y
 
 # NEOVIM
 wget https://github.com/neovim/neovim/releases/download/v0.5.0/nvim.appimage
