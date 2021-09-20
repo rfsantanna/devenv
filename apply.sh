@@ -13,7 +13,7 @@ if [ "$CONF_TYPE" == 'deps' ]; then
   f_title "DEPS :: Intall dependencies"
   bash deps/install.sh
 
-if [ "$CONF_TYPE" == 'bash' ]; then
+elif [ "$CONF_TYPE" == 'bash' ]; then
   f_title "BASH :: Copying config files"
   cp -vi bash/bashrc ~/.bashrc
   cp -vi bash/bash_prompt ~/.bash_prompt
