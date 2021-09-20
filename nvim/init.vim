@@ -12,6 +12,7 @@ Plug 'neovim/nvim-lspconfig'
 Plug 'RishabhRD/popfix'
 Plug 'hrsh7th/nvim-compe'
 Plug 'hashivim/vim-terraform'
+Plug 'nvim-treesitter/nvim-treesitter'
 
 " MARKDOWN
 Plug 'SidOfc/mkdx', {'for': 'markdown'}
@@ -57,6 +58,8 @@ Plug 'tjdevries/colorbuddy.vim'
 Plug 'bkegley/gloombuddy'
 Plug 'projekt0n/github-nvim-theme'
 Plug 'marko-cerovac/material.nvim'
+Plug 'bluz71/vim-nightfly-guicolors'
+Plug 'bluz71/vim-moonfly-colors'
 
 
 call plug#end()
