@@ -9,6 +9,10 @@ f_title() {
 
 CONF_TYPE=$1
 
+if [ "$CONF_TYPE" == 'deps' ]; then
+  f_title "DEPS :: Intall dependencies"
+  bash deps/install.sh
+
 if [ "$CONF_TYPE" == 'bash' ]; then
   f_title "BASH :: Copying config files"
   cp -vi bash/bashrc ~/.bashrc
