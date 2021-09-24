@@ -86,6 +86,7 @@ filetype indent on
 syntax enable
 "set fileformat=unix
 set clipboard^=unnamed,unnamedplus    " Get Machine Clipboard
+
 set guioptions=c                      " no gui options bar
 set mouse=a                           " enable mouse
 set nocompatible                      " no vi-compatible
@@ -204,8 +205,8 @@ else
     let g:floaterm_shell = 'bash'
 endif
 
-hi FloatermBorder guifg=orchid1
-hi Floaterm guibg=gray5 guifg=white
+"hi FloatermBorder guifg=orchid1
+"hi Floaterm guibg=gray5 guifg=white
 let g:floaterm_position = 'center'
 let g:floaterm_height = 0.8
 let g:floaterm_width = 0.8
@@ -290,12 +291,13 @@ require'lspconfig'.yamlls.setup{
 }
 require'lspconfig'.jedi_language_server.setup{}
 require('lualine').setup {
-    options = {theme = 'material-nvim'}
+    options = {theme = 'github'}
 }
 EOF
 
+let g:neovide_cursor_vfx_mode = "ripple"
 
-set guifont=Hack:h12
+set guifont=Hack:h10
 set background=dark
 let g:material_style = 'palenight'
-colorscheme material
+colorscheme github_dark
