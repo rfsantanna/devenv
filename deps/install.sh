@@ -19,6 +19,9 @@ sudo apt install -y fzf ripgrep
 sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
 sudo apt-get install terraform terraform-ls -y
 
+# Azure CLI
+curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+
 # NEOVIM
 wget https://github.com/neovim/neovim/releases/download/v0.5.0/nvim.appimage
 chmod +x nvim.appimage
