@@ -21,6 +21,7 @@ sudo apt-get install terraform terraform-ls -y
 
 # Azure CLI
 curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+az extension add --name azure-devops
 
 # NEOVIM
 wget https://github.com/neovim/neovim/releases/download/v0.5.0/nvim.appimage
