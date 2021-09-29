@@ -1,7 +1,7 @@
-choco install terraform -y --version 1.0.6 --force
-choco install psscriptanalyzer -y
+choco install terraform -y --version 1.0.7 --force
 choco install neovim --version 0.5.0  -y
-choco install powershell-core -y
+choco install psscriptanalyzer powershell-core -y
+choco install aria2 -y
 
 pip install neovim
 pip install jedi-language-server
