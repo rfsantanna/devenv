@@ -14,9 +14,13 @@ sudo yarn add yaml-language-server
 
 # Utils
 sudo apt install -y fzf ripgrep vivid
+# Vivid
+wget "https://github.com/sharkdp/vivid/releases/download/v0.7.0/vivid_0.7.0_amd64.deb"
+sudo dpkg -i vivid_0.7.0_amd64.deb
+
 
 # Terraform
-sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main" -y
 sudo apt-get install terraform terraform-ls -y
 
 # Azure CLI
@@ -25,7 +29,7 @@ az extension add --name azure-devops
 
 # NEOVIM
 cat /etc/issue | grep -i ubuntu && {
-    sudo add-apt-repository ppa:neovim-ppa/unstable  
+    sudo add-apt-repository ppa:neovim-ppa/unstable -y
     sudo apt update && sudo apt install neovim
 } || {
     wget https://github.com/neovim/neovim/releases/download/v0.5.1/nvim.appimage

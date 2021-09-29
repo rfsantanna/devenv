@@ -1,11 +1,11 @@
 Param(
+    [Parameter(Mandatory)][ValidateSet('Install','Remove','Backup','Restore')]$Action,
+	$Username = "",
     $UbuntuVersion = "21.04",
 	$Name = "Ubuntu2104",
-	$Username = "",
     $WSLVersion = 1,
 	[switch]$AFS,
-	[switch]$SkipPassword,
-    [Parameter(Mandatory)][ValidateSet('Install','Remove','Backup','Restore')]$Action
+	[switch]$SkipPassword
 )
 
 switch ($Action) {
@@ -64,6 +64,10 @@ switch ($Action) {
     }
 
     Restore {
+        Write-Host("`n:: Cleaning directory C:\$Name")
+        rmdir -recurse -Force C:/$Name -ErrorAction SilentlyContinue
+        mkdir C:/$Name -ErrorAction SilentlyContinue | out-null
+
         Write-Host("`n:: Restoring to C:\$Name")
         wsl --import $name C:/$name (Join-Path $HOME "wsl-$name-backup.tar")
 
