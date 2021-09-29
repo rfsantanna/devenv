@@ -15,9 +15,9 @@ if [ "$CONF_TYPE" == 'deps' ]; then
 
 elif [ "$CONF_TYPE" == 'bash' ]; then
   f_title "BASH :: Copying config files"
-  cp -vi bash/bashrc ~/.bashrc
-  cp -vi bash/bash_prompt ~/.bash_prompt
-  cp -vi bash/bash_alias ~/.bash_alias
+  cp -vi bash/bashrc_simple ~/.bashrc
+  #cp -vi bash/bash_prompt ~/.bash_prompt
+  #cp -vi bash/bash_alias ~/.bash_alias
   source ~/.bashrc
 
 elif [ "$CONF_TYPE" == 'git' ]; then
@@ -25,8 +25,6 @@ elif [ "$CONF_TYPE" == 'git' ]; then
   cp -vi git/gitconfig ~/.gitconfig
 
 elif [ "$CONF_TYPE" == 'vim' ]; then
-  apt install python nodejs vim git neovim
-  pip install neovim
   f_title "VIM :: Copying config files"
   mkdir ~/.vim 2> /dev/null
   cp -vi vim/vim/vimrc ~/.vimrc
@@ -37,13 +35,14 @@ elif [ "$CONF_TYPE" == 'vim' ]; then
 
 elif [ "$CONF_TYPE" == 'nvim' ]; then
   f_title "NVIM :: Installing vim-plug"
-  curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs \
+  curl -sfLo ~/.config/nvim/autoload/plug.vim --create-dirs \
       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   f_title "NVIM :: Copying config files"
-  cp -vi nvim/init.vim ~/.config/nvim/
-  cp -vR vim/defaults/* ~/.config/nvim/
+  cp -rvi nvim/init.vim ~/.config/nvim/
+  #cp -vR vim/defaults/* ~/.config/nvim/
   f_title "NVIM :: Installing Plugins"
-  nvim --headless +PlugInstall +qall
+  nvim --headless +PlugInstall +qall 2>/dev/null
+  f_title "Done" 
 
 elif [ "$CONF_TYPE" == 'fix-ansible-vim' ]; then
   PLUG_DIR=~/.vim/plugged/ansible-vim

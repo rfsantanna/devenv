@@ -4,7 +4,7 @@
 
 let g:polyglot_disabled = ['markdown']
 
-call plug#begin('~/.vim/plugged')
+call plug#begin('~/.config/nvim/plugged')
 
 " SYNTAX
 Plug 'sheerun/vim-polyglot'
@@ -291,7 +291,7 @@ require'lspconfig'.yamlls.setup{
 }
 require'lspconfig'.jedi_language_server.setup{}
 require('lualine').setup {
-    options = {theme = 'github'}
+    options = {theme = 'material-nvim'}
 }
 EOF
 
@@ -299,5 +299,5 @@ let g:neovide_cursor_vfx_mode = "ripple"
 
 set guifont=Hack:h10
 set background=dark
-let g:material_style = 'palenight'
-colorscheme github_dark
+let g:material_style = 'darker'
+colorscheme material
