@@ -3,7 +3,7 @@ curl -sL https://deb.nodesource.com/setup_14.x -o- | sudo bash
 
 # Basic dependencies
 sudo apt update -y
-sudo apt-get install nodejs software-properties-common unzip -y
+sudo apt-get install software-properties-common unzip -y
 
 # Languages
 sudo apt install python3-dev python3-pip nodejs golang lua5.3 -y
@@ -13,7 +13,7 @@ sudo npm install -g yarn
 sudo yarn add yaml-language-server
 
 # Utils
-sudo apt install -y fzf ripgrep 
+sudo apt install -y fzf ripgrep vivid
 
 # Terraform
 sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
@@ -24,9 +24,14 @@ curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 az extension add --name azure-devops
 
 # NEOVIM
-wget https://github.com/neovim/neovim/releases/download/v0.5.0/nvim.appimage
-chmod +x nvim.appimage
-sudo mv -f nvim.appimage /usr/bin/nvim
+cat /etc/issue | grep -i ubuntu && {
+    sudo add-apt-repository ppa:neovim-ppa/unstable  
+    sudo apt update && sudo apt install neovim
+} || {
+    wget https://github.com/neovim/neovim/releases/download/v0.5.1/nvim.appimage
+    chmod +x nvim.appimage
+    sudo mv -f nvim.appimage /usr/bin/nvim
+}
 sudo pip3 install neovim
 
 # POWERSHELL EDITOR SERVICES
