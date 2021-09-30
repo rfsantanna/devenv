@@ -1,4 +1,5 @@
-curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+# ADD keys
+curl -fsSL https://apt.releases.hashicorp.com/gpg | gpg --dearmor > /etc/apt/trusted.gpg.d/hashicorp-archive-keyring.gpg
 curl -sL https://deb.nodesource.com/setup_14.x -o- | sudo bash
 
 # Basic dependencies
@@ -13,7 +14,7 @@ sudo npm install -g yarn
 sudo yarn add yaml-language-server
 
 # Utils
-sudo apt install -y fzf ripgrep vivid fonts-hack-ttf
+sudo apt install -y fzf ripgrep fonts-hack-ttf
 wget "https://github.com/sharkdp/vivid/releases/download/v0.7.0/vivid_0.7.0_amd64.deb"
 sudo dpkg -i vivid_0.7.0_amd64.deb
 
