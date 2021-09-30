@@ -1,21 +1,31 @@
-choco install terraform -y --version 1.0.7 --force
-choco install neovim --version 0.5.0  -y
-choco install psscriptanalyzer powershell-core -y
-choco install aria2 -y
+Param(
+    $NeovimVersion = "0.5.0",
+    $PowershellESVersion = "2.5.1",
+    $TerraformVersion = "1.0.7",
+    $TerraformLSVersion = "0.22.0" 
+)
 
+# Basic
+choco install microsoft-windows-terminal -y
+choco install aria2 psscriptanalyzer powershell-core -y
+
+# NEOVIM
+choco install neovim --version $NeovimVersion -y
 pip install neovim
+
+# Language
 pip install jedi-language-server
 npm install -g pyright
 npm install -g yarn
 yarn add yaml-language-server
 
-
-# TERRAFORM-LS
-Invoke-WebRequest -Uri "https://releases.hashicorp.com/terraform-ls/0.22.0/terraform-ls_0.22.0_windows_amd64.zip" -OutFile terraform-ls.zip
+# TERRAFORM
+choco install terraform -y --version $TerraformVersion --force
+Invoke-WebRequest -Uri "https://releases.hashicorp.com/terraform-ls/$TerraformLSVersion/terraform-ls_$($TerraformLSVersion)_windows_amd64.zip" -OutFile terraform-ls.zip
 Expand-Archive -Path terraform-ls.zip -DestinationPath C:\ProgramData\chocolatey\bin -Verbose -force
 
 # POWERSHELL EDITOR SERVICES
-Invoke-WebRequest https://github.com/PowerShell/PowerShellEditorServices/releases/download/v2.5.1/PowerShellEditorServices.zip -OutFile PowerShellEditorServices.zip
+Invoke-WebRequest https://github.com/PowerShell/PowerShellEditorServices/releases/download/$PowershellESVersion/PowerShellEditorServices.zip -OutFile PowerShellEditorServices.zip
 Expand-Archive -Path PowerShellEditorServices.zip -DestinationPath C:/users/$env:USERNAME/PowershellES -Force 
 
 
