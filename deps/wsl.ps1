@@ -62,7 +62,7 @@ switch ($Action) {
 
         If ($username) {
             Write-Host("`n:: Adding user $Username")
-            wsl -d $name bash -c "useradd -m $Username"
+            wsl -d $name bash -c "useradd -m $Username -s /bin/bash"
 
             Write-Host("`n:: Include user in sudoers")
             wsl -d $name bash -c  "echo '$USerName ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/defaultuser"
