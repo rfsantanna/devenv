@@ -3,30 +3,62 @@ Param(
 	$Username = "",
     $UbuntuVersion = "21.04",
 	$Name = "Ubuntu2104",
+    $Directory = "C:\$Name",
+    $BackupFile = "$(Join-Path $HOME `"wsl-$name-backup.tar`")",
     $WSLVersion = 1,
 	[switch]$AFS,
 	[switch]$SkipPassword
 )
 
+
+function Set-WSLDefaultUser($Username, $Distribution) {
+    If (-Not $Username) { $Username = "root" }
+    $USERID = wsl -d $Distribution bash -c "id -u $Username" 
+    Write-Host("`n:: Set default username in WSL")
+    Get-ItemProperty Registry::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Lxss\* `
+        | Where-Object DistributionName -eq "$Distribution" `
+        | Set-ItemProperty -Name DefaultUid -Value $USERID	
+}
+
+function Clear-WSLDirectory($Directory) {
+    Write-Host("`n:: Cleaning directory $Directory")
+    Remove-Item -recurse -Force $Directory -ErrorAction SilentlyContinue
+    mkdir $Directory -ErrorAction SilentlyContinue | out-null
+}
+
+function Set-WSLDefaultDistro($Distribution) {
+    Write-Host("`n:: Set $Distribution as default WSL image")
+    wsl --set-default $Distribution
+}
+
+function Get-WSLImageURL($Distribution, $Version) {
+    switch ($Distribution) {
+        Ubuntu {
+            $ImageURL = "https://cloud-images.ubuntu.com/releases/hirsute/release-20210928/ubuntu-$UbuntuVersion-server-cloudimg-amd64-wsl.rootfs.tar.gz"
+            return $ImageURL
+        }
+        default {
+            Write-Error "Distribution not Found" -ErrorAction Stop
+        }
+    }
+}
+
+
+
 switch ($Action) {
     Install {
         if (-NOT $AFS) {
-            $ImageURL = "https://cloud-images.ubuntu.com/releases/hirsute/release-20210928/ubuntu-21.04-server-cloudimg-amd64-wsl.rootfs.tar.gz"
+            $ImageURL = Get-WSLImageURL -Distribution Ubuntu -Version 21.04
             Write-Host("`n:: Installing Aria2")
             choco install aria2 -y
             Write-Host("`n:: Downloading Image")
             aria2c -o rootfs.tar.gz -c -s 16 -x 16 -k 1M -j 1 --file-allocation=none  $ImageURL	
-        } Else {cp \\afs\Tools\Setup\Instaladores\UbuntuWSL\rootfs.tar.gz . }
+        } Else {Copy-Item \\afs\Tools\Setup\Instaladores\UbuntuWSL\rootfs.tar.gz . }
 
-        Write-Host("`n:: Cleaning directory C:\$Name")
-        rmdir -recurse -Force C:/$Name -ErrorAction SilentlyContinue
-        mkdir C:/$Name -ErrorAction SilentlyContinue | out-null
 
-        Write-Host("`n:: Set default version to $WSLVersion")
-        wsl --set-default-version $WSLVersion
-
+        Clear-WSLDirectory -Directory $Directory
         Write-Host("`n:: Importing rootfs")
-        wsl --import $Name C:/$Name .\rootfs.tar.gz
+        wsl --import $Name $Directory .\rootfs.tar.gz
 
         If ($username) {
             Write-Host("`n:: Adding user $Username")
@@ -39,17 +71,9 @@ switch ($Action) {
                 Write-Host("`n:: Set $username Password")
                 wsl -d $name bash -c "passwd $Username"
             }
-
-            Write-Host("`n:: Set default username in WSL")
-            $USERID = wsl -d $Name bash -c "id -u $Username" 
-            Get-ItemProperty Registry::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Lxss\* `
-                | Where DistributionName -eq "$Name" `
-                | Set-ItemProperty -Name DefaultUid -Value $USERID	
+            Set-WSLDefaultUser -Username $Username -Distribution $Name
         }
-
-        Write-Host("`n:: Set $Name as default WSL image")
-        wsl --set-default $Name
-
+        Set-WSLDefaultDistro -Distribution $Name
         Write-Host("`n:: Running $Name")
         bash
     }
@@ -60,24 +84,19 @@ switch ($Action) {
 
     Backup {
         Write-Host("`n:: Starting $Name Backup")
-        wsl --export $name (Join-Path $HOME "wsl-$name-backup.tar")
+        wsl --export $Name $BackupFile
     }
 
     Restore {
-        Write-Host("`n:: Cleaning directory C:\$Name")
-        rmdir -recurse -Force C:/$Name -ErrorAction SilentlyContinue
-        mkdir C:/$Name -ErrorAction SilentlyContinue | out-null
-
-        Write-Host("`n:: Restoring to C:\$Name")
-        wsl --import $name C:/$name (Join-Path $HOME "wsl-$name-backup.tar")
-
-        Write-Host("`n:: Set $Name as default WSL image")
-        wsl --set-default $Name
+        Clear-WSLDirectory -Directory $Directory
+        Write-Host("`n:: Restoring to $Directory")
+        wsl --import $Name $Directory $BackupFile
+        Set-WSLDefaultDistro -Distribution $Name
+        Set-WSLDefaultUser -Username $Username -Distribution $Name
     }
 
     default {
         Write-Host("Wrong Action")
     }
-
 }
 
