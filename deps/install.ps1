@@ -25,7 +25,7 @@ Invoke-WebRequest -Uri "https://releases.hashicorp.com/terraform-ls/$TerraformLS
 Expand-Archive -Path terraform-ls.zip -DestinationPath C:\ProgramData\chocolatey\bin -Verbose -force
 
 # POWERSHELL EDITOR SERVICES
-Invoke-WebRequest https://github.com/PowerShell/PowerShellEditorServices/releases/download/$PowershellESVersion/PowerShellEditorServices.zip -OutFile PowerShellEditorServices.zip
+Invoke-WebRequest https://github.com/PowerShell/PowerShellEditorServices/releases/download/v$PowershellESVersion/PowerShellEditorServices.zip -OutFile PowerShellEditorServices.zip
 Expand-Archive -Path PowerShellEditorServices.zip -DestinationPath C:/users/$env:USERNAME/PowershellES -Force 
 
 
