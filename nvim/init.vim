@@ -165,7 +165,7 @@ function! s:check_back_space() abort
 endfunction
 
 " ScriptRunner
-command! -nargs=1 ScriptRunner :FloatermNew --title=ScriptRunner($1/$2) powershell "echo '<q-args>' | powershell.exe \\afs\Rotinas\ScriptRunner\SubmitScript.ps1"
+command! -nargs=1 ScriptRunner :FloatermNew --title=ScriptRunner($1/$2) powershell "echo '<q-args>' | powershell.exe -File //afs/Rotinas/ScriptRunner/SubmitScript.ps1"
 
 
 " PLUGIN CONFIGS
@@ -273,7 +273,7 @@ inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })
 "  ---- LUA MODULES
 lua << EOF
 require'lspconfig'.powershell_es.setup{
-  bundle_path = '~/PowershellES',
+  bundle_path = os.getenv("HOME")..'/PowershellES',
   on_attach = require'compe'.on_attach
 } 
 require'lspconfig'.terraformls.setup{}

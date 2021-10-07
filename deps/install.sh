@@ -1,5 +1,5 @@
 # ADD keys
-curl -fsSL https://apt.releases.hashicorp.com/gpg | gpg --dearmor > /etc/apt/trusted.gpg.d/hashicorp-archive-keyring.gpg
+curl -fsSL https://apt.releases.hashicorp.com/gpg | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/hashicorp-archive-keyring.gpg >/dev/null
 curl -sL https://deb.nodesource.com/setup_14.x -o- | sudo bash
 
 # Basic dependencies
