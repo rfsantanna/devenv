@@ -48,19 +48,17 @@ Plug 'romainl/vim-cool'
 Plug 'ryanoasis/vim-devicons'
 
 " THEMES
-Plug 'drewtempelmeyer/palenight.vim'
-Plug 'lifepillar/vim-gruvbox8'
-Plug 'joshdick/onedark.vim'
-Plug 'sainnhe/sonokai'
-Plug 'sainnhe/everforest'
+Plug 'ellisonleao/gruvbox.nvim'
+Plug 'navarasu/onedark.nvim'
 Plug 'ayu-theme/ayu-vim'
-Plug 'tjdevries/colorbuddy.vim'
 Plug 'bkegley/gloombuddy'
 Plug 'projekt0n/github-nvim-theme'
 Plug 'marko-cerovac/material.nvim'
 Plug 'bluz71/vim-nightfly-guicolors'
 Plug 'bluz71/vim-moonfly-colors'
-
+Plug 'Pocco81/Catppuccino.nvim'
+Plug 'EdenEast/nightfox.nvim'
+Plug 'ellisonleao/gruvbox.nvim'
 
 call plug#end()
 
@@ -290,8 +288,9 @@ require'lspconfig'.yamlls.setup{
     cmd = {"yaml-language-server.cmd", "--stdio"}
 }
 require'lspconfig'.jedi_language_server.setup{}
+require("plenary.reload").reload_module("lualine", true)
 require('lualine').setup {
-    options = {theme = 'material-nvim'}
+    options = {theme = 'onedark'}
 }
 EOF
 
@@ -300,4 +299,5 @@ let g:neovide_cursor_vfx_mode = "ripple"
 set guifont=Hack:h10
 set background=dark
 let g:material_style = 'darker'
-colorscheme material
+let g:onedark_style = 'deep'
+colorscheme onedark
