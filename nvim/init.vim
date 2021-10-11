@@ -13,6 +13,7 @@ Plug 'RishabhRD/popfix'
 Plug 'hrsh7th/nvim-compe'
 Plug 'hashivim/vim-terraform'
 Plug 'nvim-treesitter/nvim-treesitter'
+Plug 'pearofducks/ansible-vim'
 
 " MARKDOWN
 Plug 'SidOfc/mkdx', {'for': 'markdown'}
@@ -25,7 +26,6 @@ Plug 'junegunn/fzf.vim'
 
 " DEVELOPER IMPROVEMENTS
 Plug 'tpope/vim-fugitive'
-"Plug 'jiangmiao/auto-pairs'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'Yggdroot/hiPairs'
@@ -48,6 +48,7 @@ Plug 'romainl/vim-cool'
 Plug 'ryanoasis/vim-devicons'
 
 " THEMES
+Plug 'rktjmp/lush.nvim'
 Plug 'ellisonleao/gruvbox.nvim'
 Plug 'navarasu/onedark.nvim'
 Plug 'ayu-theme/ayu-vim'
@@ -58,7 +59,6 @@ Plug 'bluz71/vim-nightfly-guicolors'
 Plug 'bluz71/vim-moonfly-colors'
 Plug 'Pocco81/Catppuccino.nvim'
 Plug 'EdenEast/nightfox.nvim'
-Plug 'ellisonleao/gruvbox.nvim'
 
 call plug#end()
 
@@ -169,6 +169,12 @@ command! -nargs=1 ScriptRunner :FloatermNew --title=ScriptRunner($1/$2) powershe
 " PLUGIN CONFIGS
 " ----------------------------------------------------------
 
+" ANSIBLE-VIM
+let g:ansible_extra_keywords_highlight = 1
+let g:ansible_name_highlight = 'b'
+let g:ansible_loop_keywords_highlight = 'Constant'
+
+
 "  ---- FZF
 nnoremap <silent> <leader>fz :FZF<Cr>
 
@@ -274,6 +280,7 @@ require'lspconfig'.powershell_es.setup{
   bundle_path = os.getenv("HOME")..'/PowershellES',
   on_attach = require'compe'.on_attach
 } 
+
 require'lspconfig'.terraformls.setup{}
 require'shade'.setup({
   overlay_opacity = 50,
@@ -284,10 +291,13 @@ require'shade'.setup({
     toggle           = '<Leader>s',
   }
 })
+
 require'lspconfig'.yamlls.setup{
     cmd = {"yaml-language-server.cmd", "--stdio"}
 }
+
 require'lspconfig'.jedi_language_server.setup{}
+
 require("plenary.reload").reload_module("lualine", true)
 require('lualine').setup {
     options = {theme = 'onedark'}
