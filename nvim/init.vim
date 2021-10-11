@@ -172,8 +172,6 @@ command! -nargs=1 ScriptRunner :FloatermNew --title=ScriptRunner($1/$2) powershe
 " ANSIBLE-VIM
 let g:ansible_extra_keywords_highlight = 1
 let g:ansible_name_highlight = 'b'
-let g:ansible_loop_keywords_highlight = 'Constant'
-
 
 "  ---- FZF
 nnoremap <silent> <leader>fz :FZF<Cr>
