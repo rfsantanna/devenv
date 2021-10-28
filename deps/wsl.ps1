@@ -1,8 +1,8 @@
 Param(
     [Parameter(Mandatory)][ValidateSet('Install','Remove','Backup','Restore')]$Action,
 	$Username = "",
-    $UbuntuVersion = "21.04",
-	$Name = "Ubuntu2104",
+    $UbuntuVersion = "20.04",
+	$Name = "Ubuntu2004",
     $Directory = "C:\$Name",
     $BackupFile = "$(Join-Path $HOME `"wsl-$name-backup.tar`")",
     $WSLVersion = 1,
@@ -34,7 +34,7 @@ function Set-WSLDefaultDistro($Distribution) {
 function Get-WSLImageURL($Distribution, $Version) {
     switch ($Distribution) {
         Ubuntu {
-            $ImageURL = "https://cloud-images.ubuntu.com/releases/hirsute/release-20210928/ubuntu-$UbuntuVersion-server-cloudimg-amd64-wsl.rootfs.tar.gz"
+	    $ImageURL = "https://cloud-images.ubuntu.com/releases/$UbuntuVersion/release/ubuntu-$UbuntuVersion-server-cloudimg-amd64-wsl.rootfs.tar.gz"
             return $ImageURL
         }
         default {
@@ -48,7 +48,7 @@ function Get-WSLImageURL($Distribution, $Version) {
 switch ($Action) {
     Install {
         if (-NOT $AFS) {
-            $ImageURL = Get-WSLImageURL -Distribution Ubuntu -Version 21.04
+            $ImageURL = Get-WSLImageURL -Distribution Ubuntu -Version $UbuntuVersion
             Write-Host("`n:: Installing Aria2")
             choco install aria2 -y
             Write-Host("`n:: Downloading Image")
