@@ -1,8 +1,8 @@
 Param(
     [Parameter(Mandatory)][ValidateSet('Install','Remove','Backup','Restore')]$Action,
 	$Username = "",
-    $UbuntuVersion = "20.04",
-	$Name = "Ubuntu2004",
+    $UbuntuVersion = "21.04",
+	$Name = "Ubuntu2104",
     $Directory = "C:\$Name",
     $BackupFile = "$(Join-Path $HOME `"wsl-$name-backup.tar`")",
     $WSLVersion = 1,
