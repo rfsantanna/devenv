@@ -35,6 +35,8 @@ Plug 'tmhedberg/SimpylFold', {'for': 'python'}
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 
 " UI
+Plug 'kyazdani42/nvim-web-devicons'
+Plug 'romgrk/barbar.nvim'
 Plug 'hoob3rt/lualine.nvim'
 Plug 'voldikss/vim-floaterm' 
 Plug 'sunjon/shade.nvim'
@@ -45,7 +47,7 @@ Plug 'camspiers/animate.vim'
 Plug 'camspiers/lens.vim'
 Plug 'RRethy/vim-illuminate'
 Plug 'romainl/vim-cool'
-Plug 'ryanoasis/vim-devicons'
+"Plug 'ryanoasis/vim-devicons'
 
 " THEMES
 Plug 'rktjmp/lush.nvim'
@@ -304,8 +306,11 @@ EOF
 
 let g:neovide_cursor_vfx_mode = "ripple"
 
-set guifont=Hack:h10
+set guifont=LiterationNF:h11
 set background=dark
-let g:material_style = 'darker'
-let g:onedark_style = 'deep'
+let g:material_style = 'lighter'
+let g:onedark_config = {
+    \ 'style': 'darker',
+\}
 colorscheme onedark
+
