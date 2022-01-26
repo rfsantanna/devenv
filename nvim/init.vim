@@ -35,6 +35,7 @@ Plug 'tmhedberg/SimpylFold', {'for': 'python'}
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 
 " UI
+Plug 'karb94/neoscroll.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'romgrk/barbar.nvim'
 Plug 'hoob3rt/lualine.nvim'
@@ -106,7 +107,7 @@ set nobackup
 set nowritebackup
 set nowrap
 "set tags=tags;
-set colorcolumn=80
+"set colorcolumn=80
 "set spelllang=pt_br,en
 set noswapfile
 set noshowmode
@@ -139,7 +140,7 @@ let maplocalleader = ";"
 let mapleader = ","
 nnoremap <leader>H :cd ~/code<cr>
 imap jj <ESC>
-tnoremap jj <C-\><C-n>
+tnoremap JJ <C-\><C-n>
 tnoremap <S-space> <space>
 cmap <C-v> <C-R>+
 "Remove all trailing whitespace by pressing F5
@@ -165,7 +166,9 @@ function! s:check_back_space() abort
 endfunction
 
 " ScriptRunner
+command! -nargs=1 GitPushAll :!git add -A && git commit -m <q-args> && git push
 command! -nargs=1 ScriptRunner :FloatermNew --title=ScriptRunner($1/$2) powershell "echo '<q-args>' | powershell.exe -File //afs/Rotinas/ScriptRunner/SubmitScript.ps1"
+command! -nargs=1 ScriptRunnerHom :FloatermNew --title=ScriptRunner($1/$2) powershell "echo '<q-args>' | powershell.exe -File //afs/Rotinas/ScriptRunner/SubmitScriptHom.ps1"
 
 
 " PLUGIN CONFIGS
@@ -302,15 +305,37 @@ require("plenary.reload").reload_module("lualine", true)
 require('lualine').setup {
     options = {theme = 'onedark'}
 }
+
+require('neoscroll').setup({
+    -- All these keys will be mapped to their corresponding default scrolling animation
+    mappings = {'<C-u>', '<C-d>', '<C-b>', '<C-f>',
+                '<C-y>', '<C-e>', 'zt', 'zz', 'zb'},
+    hide_cursor = true,          -- Hide cursor while scrolling
+    stop_eof = true,             -- Stop at <EOF> when scrolling downwards
+    use_local_scrolloff = false, -- Use the local scope of scrolloff instead of the global scope
+    respect_scrolloff = false,   -- Stop scrolling when the cursor reaches the scrolloff margin of the file
+    cursor_scrolls_alone = true, -- The cursor will keep on scrolling even if the window cannot scroll further
+    easing_function = nil,       -- Default easing function
+    pre_hook = nil,              -- Function to run before the scrolling animation starts
+    post_hook = nil,             -- Function to run after the scrolling animation ends
+    performance_mode = false,    -- Disable "Performance Mode" on all buffers.
+})
 EOF
 
 let g:neovide_cursor_vfx_mode = "ripple"
 
-set guifont=LiterationNF:h11
+set guifont="Literation NF":h10
 set background=dark
 let g:material_style = 'lighter'
 let g:onedark_config = {
-    \ 'style': 'darker',
-\}
+  \ 'style': 'darker',
+  \ 'toggle_style_key': '<leader>ts',
+  \ 'ending_tildes': v:true,
+  \ 'diagnostics': {
+    \ 'darker': v:false,
+    \ 'background': v:false,
+  \ },
+\ }
 colorscheme onedark
+set t_Co=256
 
