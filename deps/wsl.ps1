@@ -1,13 +1,15 @@
 Param(
-    [Parameter(Mandatory)][ValidateSet('Install','Remove','Backup','Restore')]$Action,
-	$Username = "",
-    $UbuntuVersion = "21.04",
-	$Name = "Ubuntu2104",
+    [Parameter(Mandatory)][ValidateSet('Install','Remove','Backup','Restore','ImportCert','SetupPackages')]$Action,
+	$Username = $env:USERNAME,
+    $RootFSUrl = "https://cloud-images.ubuntu.com/releases/impish/release/ubuntu-21.10-server-cloudimg-amd64-wsl.rootfs.tar.gz",
+    $Name = "Ubuntu2110",
+    $Cert = "\\afs\Areas\TI\Compartilhado\wsl\ca-raiz.crt",
     $Directory = "C:\$Name",
     $BackupFile = "$(Join-Path $HOME `"wsl-$name-backup.tar`")",
     $WSLVersion = 1,
-	[switch]$AFS,
-	[switch]$SkipPassword
+    $AFSPath = "\\afs\Areas\TI\Compartilhado\wsl\ubuntu_rootfs_2110.tar.gz",
+	[switch]$RemoteUrl,
+	[switch]$SetPassword
 )
 
 
@@ -34,7 +36,7 @@ function Set-WSLDefaultDistro($Distribution) {
 function Get-WSLImageURL($Distribution, $Version) {
     switch ($Distribution) {
         Ubuntu {
-	    $ImageURL = "https://cloud-images.ubuntu.com/releases/$UbuntuVersion/release/ubuntu-$UbuntuVersion-server-cloudimg-amd64-wsl.rootfs.tar.gz"
+	    $ImageURL = $RootFSUrl
             return $ImageURL
         }
         default {
@@ -43,17 +45,24 @@ function Get-WSLImageURL($Distribution, $Version) {
     }
 }
 
+function Import-WSLCert($Cert, $Distribution) {
+    Write-Host("`n:: Import $Cert to $Distribution")
+    $CertName = (Get-Item -Path $cert).BaseName + ".crt"
+    Copy-Item -Path $Cert -Destination C:/tmpcert.crt
+    wsl -d $Distribution -- sudo mv /mnt/c/tmpcert.crt /usr/local/share/ca-certificates/$CertName
+    wsl -d $Distribution -- sudo update-ca-certificates
+}
 
 
 switch ($Action) {
     Install {
-        if (-NOT $AFS) {
-            $ImageURL = Get-WSLImageURL -Distribution Ubuntu -Version $UbuntuVersion
+        if ($RemoteUrl) {
+            $ImageURL = Get-WSLImageURL -Distribution Ubuntu -Version $UbuntuRootfsUrl
             Write-Host("`n:: Installing Aria2")
             choco install aria2 -y
             Write-Host("`n:: Downloading Image")
             aria2c -o rootfs.tar.gz -c -s 16 -x 16 -k 1M -j 1 --file-allocation=none  $ImageURL	
-        } Else {Copy-Item \\afs\Tools\Setup\Instaladores\UbuntuWSL\rootfs.tar.gz . }
+        } Else { Copy-Item $AFSPath rootfs.tar.gz }
 
 
         Clear-WSLDirectory -Directory $Directory
@@ -67,15 +76,17 @@ switch ($Action) {
             Write-Host("`n:: Include user in sudoers")
             wsl -d $name bash -c  "echo '$USerName ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/defaultuser"
 
-            If (-NOT $SkipPassword) {
+            If ($SetPassword) {
                 Write-Host("`n:: Set $username Password")
                 wsl -d $name bash -c "passwd $Username"
             }
             Set-WSLDefaultUser -Username $Username -Distribution $Name
         }
         Set-WSLDefaultDistro -Distribution $Name
-        Write-Host("`n:: Running $Name")
-        bash
+        #Import-WSLCert -Distribution $Name -Cert $cert
+         
+        Write-Host("`n:: Ignore SSL certs on apt")
+        bash -c "echo -e 'Acquire::https::Verify-Peer `"false`";\nAcquire::https::Verify-Host `"false`";' | sudo tee /etc/apt/apt.conf.d/98ignore-ssl"
     }
 
     Remove {
@@ -88,11 +99,26 @@ switch ($Action) {
     }
 
     Restore {
+        $ErrorActionPreference = "SilentlyContinue"
+        wsl --unregister $Name
+        $ErrorActionPreference = "Stop"
         Clear-WSLDirectory -Directory $Directory
         Write-Host("`n:: Restoring to $Directory")
         wsl --import $Name $Directory $BackupFile
         Set-WSLDefaultDistro -Distribution $Name
         Set-WSLDefaultUser -Username $Username -Distribution $Name
+    }
+
+    ImportCert {
+        Import-WSLCert -Cert $Cert -Distribution $Name
+    }
+
+    SetupPackages {
+        $Script = "\\afs\Areas\TI\Compartilhado\wsl\install_packages.sh"
+        Write-Host("`n:: Copy file $Script to $Name")
+        Copy-Item -Path $Script -Destination C:/tmpscript.sh -Force
+        wsl -d $Name -- sudo mv /mnt/c/tmpscript.sh /tmp/install_packages.sh
+        wsl -d $Name -- sudo bash /tmp/install_packages.sh
     }
 
     default {
